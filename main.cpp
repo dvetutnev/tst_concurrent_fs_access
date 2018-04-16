@@ -17,27 +17,90 @@
 #include "generate_file.h"
 
 
-const std::size_t read_workers = 3;
-const std::size_t write_workers = 1;
-
-
-struct Result
+class Worker
 {
-    std::size_t count = 0;
-    std::chrono::nanoseconds read_io_time;
-    std::chrono::nanoseconds total_io_time;
+public:
+
+    Worker()
+        : _count{0},
+          _ioTime{0},
+          _ioTimeTotal{0},
+          _isRun{true},
+          _thread{&Worker::worker, this}
+    {}
+
+    void stop() {
+
+        _isRun = false;
+        _thread.join();
+    }
+
+    void printResult() const {
+
+        std::cout << "Iterations count: " << _count \
+                  << ", read IO time: " << _ioTime.count() \
+                  << ", total IO time: " << _ioTimeTotal.count() \
+                  << std::endl;
+    }
+
+    virtual ~Worker() = default;
+
+protected:
+
+    virtual void worker() = 0;
+
+    std::size_t _count;
+    std::chrono::nanoseconds _ioTime;
+    std::chrono::nanoseconds _ioTimeTotal;
+
+private:
+
+    void handler() {
+
+        while (_isRun) {
+            _count++;
+            worker();
+        }
+    }
+
+    std::atomic_bool _isRun;
+    std::thread _thread;
 };
 
-struct Worker
+class ReadWorker : public Worker
 {
-    std::thread thread;
-    Result result;
+public:
+
+    ReadWorker(const std::string& filepath)
+        : _filepath{filepath},
+          _buffer{std::make_unique<char[]>(1024)}
+    {}
+
+protected:
+
+    virtual void worker() override {
+
+        auto startTime = std::chrono::high_resolution_clock::now();
+        std::ifstream f{_filepath};
+
+        while (f) {
+
+            auto startTime = std::chrono::high_resolution_clock::now();
+            f.read(_buffer.get(), 1024);
+            auto endTime = std::chrono::high_resolution_clock::now();
+            _ioTime += endTime - startTime;
+        }
+
+        auto endTime = std::chrono::high_resolution_clock::now();
+        _ioTimeTotal += endTime - startTime;
+
+    }
+
+private:
+
+    const std::string _filepath;
+    std::unique_ptr<char[]> _buffer;
 };
-
-
-void read_worker(std::atomic_bool*, Result*, const std::string&);
-void write_worker(std::atomic_bool*, Result*, const std::string&);
-
 
 struct separated : std::numpunct<char>
 {
@@ -50,70 +113,18 @@ TEST(simple, simple) {
 
     std::locale loc{std::cout.getloc(), new separated};
     std::cout.imbue(loc);
-    std::cout << "Run" << std::endl;
 
     generate_file("data.dat", 8 * 8 * 1024);
 
-    std::atomic_bool is_stop{false};
     std::vector< std::unique_ptr<Worker> > workers;
-    for (int i = 1; i <= read_workers + write_workers; i++) {
-
-        auto w = std::make_unique<Worker>();
-
-        if (i != read_workers + write_workers) {
-            w->thread = std::thread{read_worker, &is_stop, &(w->result), "data.dat"};
-        } else {
-            w->thread = std::thread{write_worker, &is_stop, &(w->result), "data.dat"};
-        }
-
-        workers.push_back(std::move(w));
+    while (workers.size() < 4) {
+        workers.push_back(std::make_unique<ReadWorker>("data.dat"));
     }
-
 
     std::this_thread::sleep_for(std::chrono::seconds{10});
 
-    is_stop = true;
-    for (auto& w : workers) {
-        w->thread.join();
-        std::cout << "Iterations count: " << w->result.count \
-                  << ", read IO time: " << w->result.read_io_time.count() \
-                  << ", total IO time: " << w->result.total_io_time.count() \
-                  << std::endl;
+    for (auto& i : workers) {
+        i->stop();
+        i->printResult();
     }
-}
-
-
-void read_worker(std::atomic_bool* is_stop, Result* result, const std::string& filename) {
-
-    const std::size_t len = 1024;
-    auto buffer = std::make_unique<char[]>(len);
-
-    while(!(*is_stop)) {
-
-        auto start_time = std::chrono::high_resolution_clock::now();
-        std::ifstream f{filename};
-
-        while (f) {
-
-            auto start_time = std::chrono::high_resolution_clock::now();
-            f.read(buffer.get(), len);
-            auto end_time = std::chrono::high_resolution_clock::now();
-            result->read_io_time += end_time - start_time;
-        }
-
-        auto end_time = std::chrono::high_resolution_clock::now();
-        result->total_io_time += end_time - start_time;
-
-        result->count++;
-    }
-
-}
-
-void write_worker(std::atomic_bool* is_stop, Result* result, const std::string&) {
-
-    while(!(*is_stop)) {
-        std::this_thread::sleep_for(std::chrono::milliseconds{10});
-        result->count++;
-    }
-
 }
