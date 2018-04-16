@@ -10,8 +10,12 @@ conan_cmake_run(
 )
 
 
+find_package(GTest REQUIRED)
+
+
 add_executable(main
     main.cpp
     generate_file.cpp
     fs_lock.cpp
 )
+target_link_libraries(main GTest::Main)

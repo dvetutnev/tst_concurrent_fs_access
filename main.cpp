@@ -1,3 +1,6 @@
+#include <gtest/gtest.h>
+
+
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -43,7 +46,7 @@ struct separated : std::numpunct<char>
     }
 };
 
-int main (int, char**) {
+TEST(simple, simple) {
 
     std::locale loc{std::cout.getloc(), new separated};
     std::cout.imbue(loc);
@@ -77,8 +80,6 @@ int main (int, char**) {
                   << ", total IO time: " << w->result.total_io_time.count() \
                   << std::endl;
     }
-
-    return EXIT_SUCCESS;
 }
 
 
