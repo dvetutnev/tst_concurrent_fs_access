@@ -14,8 +14,9 @@ find_package(GTest REQUIRED)
 
 
 add_executable(main
-    main.cpp
+    app.cpp
     generate_file.cpp
     fs_lock.cpp
+    main.cpp
 )
-target_link_libraries(main GTest::Main)
+target_link_libraries(main GTest::GTest)
