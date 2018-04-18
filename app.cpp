@@ -96,7 +96,7 @@ protected:
     virtual void worker() override {
 
         auto startTime = std::chrono::high_resolution_clock::now();
-        FS::shared_lock{_filepath};
+        typename FS::shared_lock l{_filepath};
         std::ifstream f{_filepath};
 
         while (f) {
@@ -138,7 +138,7 @@ protected:
     virtual void worker() override {
 
         auto startTime = std::chrono::high_resolution_clock::now();
-        FS::unique_lock{_filepath};
+        typename FS::unique_lock l{_filepath};
         std::ofstream f{_filepath};
 
         {
