@@ -98,10 +98,8 @@ protected:
                 chunks.push_back(std::move(chunk));
             }
         }
-        {
-            EASY_BLOCK("ReadCheck", profiler::colors::Silver);
-            check(chunks, filePath);
-        }
+
+        check(chunks, filePath);
     }
 
     virtual const std::string& getClassName() const override {
@@ -113,11 +111,13 @@ private:
 
     const std::string& getFilePath() const {
 
-        static std::string ret = "_data.dat";
+        static std::string ret = "data_555.dat";
         return ret;
     }
 
     void check(const std::vector<Chunk>& chunks, const std::string& filePath) const {
+
+        EASY_FUNCTION(profiler::colors::Silver);
 
         const std::string readResult = groupingChunk(chunks);
 
@@ -125,6 +125,7 @@ private:
         std::shared_lock<std::shared_mutex> lock{item.mtx};
         const std::string& normalResult = item.data;
 
+        EASY_BLOCK("CompareData", profiler::colors::Silver);
         if (readResult != normalResult) {
             throw std::exception{"Readed data incorrect!"};
         }

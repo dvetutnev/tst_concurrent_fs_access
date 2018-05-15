@@ -51,17 +51,20 @@ TEST(test_worker, ReadWorker) {
 
     TestData testData;
 
-    {
+    for (int i = 1; i <= 10000; i++) {
+
         const std::size_t length = 8 * 1024;
         auto buffer = std::make_unique<char[]>(length);
         generate_data(buffer.get(), length);
 
-        std::ofstream file{"_data.dat", std::ios_base::out | std::ios_base::binary};
+        const std::string filePath = "data_" + std::to_string(i) + ".dat";
+
+        std::ofstream file{filePath, std::ios_base::out | std::ios_base::binary};
         file.write(buffer.get(), length);
         file.flush();
         file.close();
 
-        testData["_data.dat"].data = std::string{buffer.get(), length};
+        testData[filePath].data = std::string{buffer.get(), length};
     }
 
 
@@ -78,40 +81,5 @@ TEST(test_worker, ReadWorker) {
 
     EASY_PROFILER_DISABLE;
     auto blocks_count = profiler::dumpBlocksToFile("ReadWorker.prof");
-    std::cout << "Blocks count: " << blocks_count << std::endl;
-}
-
-
-TEST(test_worker, ReadWorker2) {
-
-    TestData testData;
-
-    {
-        const std::size_t length = 8 * 1024;
-        auto buffer = std::make_unique<char[]>(length);
-        generate_data(buffer.get(), length);
-
-        std::ofstream file{"_data.dat", std::ios_base::out | std::ios_base::binary};
-        file.write(buffer.get(), length);
-        file.flush();
-        file.close();
-
-        testData["_data.dat"].data = std::string{buffer.get(), length};
-    }
-
-
-    EASY_PROFILER_ENABLE;
-    EASY_MAIN_THREAD;
-
-
-    ReadWorker worker{testData};
-    worker.start();
-    std::this_thread::sleep_for(std::chrono::seconds{1});
-    worker.stop();
-    worker.printResult();
-
-
-    EASY_PROFILER_DISABLE;
-    auto blocks_count = profiler::dumpBlocksToFile("ReadWorker2.prof");
     std::cout << "Blocks count: " << blocks_count << std::endl;
 }
