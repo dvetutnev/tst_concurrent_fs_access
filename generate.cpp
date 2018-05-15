@@ -1,5 +1,4 @@
-#include "generate_file.h"
-
+#include "generate.h"
 
 #include <fstream>
 #include <algorithm>
