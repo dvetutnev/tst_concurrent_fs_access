@@ -76,29 +76,29 @@ protected:
         const std::string& filePath = getFilePath();
 
         EASY_BLOCK("TotalReadIO");
+
+        EASY_BLOCK("OpenFile")
         std::ifstream file{filePath, std::ios_base::in | std::ios_base::binary};
         if (!file) {
             throw std::exception{"Open file failed!"};
         }
+        EASY_END_BLOCK;
 
         std::vector<Chunk> chunks;
 
-        {
-            EASY_BLOCK("ReadIO");
-            while (!file.eof()) {
+        EASY_BLOCK("ReadIO");
+        while (!file.eof()) {
 
-                Chunk chunk{
-                    std::make_unique<char[]>(1024),
-                    0
-                };
+            Chunk chunk{std::make_unique<char[]>(1024), 0};
 
-                file.read(chunk.data.get(), 1024);
-                chunk.length = file.gcount();
+            file.read(chunk.data.get(), 1024);
+            chunk.length = file.gcount();
 
-                chunks.push_back(std::move(chunk));
-            }
+            chunks.push_back(std::move(chunk));
         }
+        EASY_END_BLOCK;
 
+        EASY_BLOCK("Check read data", profiler::colors::Silver);
         check(chunks, filePath);
     }
 
@@ -117,18 +117,24 @@ private:
 
     void check(const std::vector<Chunk>& chunks, const std::string& filePath) const {
 
-        EASY_FUNCTION(profiler::colors::Silver);
-
         const std::string readResult = groupingChunk(chunks);
 
+        EASY_BLOCK("Find item", profiler::colors::Silver);
         const auto& item = _testData[filePath];
+        EASY_END_BLOCK;
+
+        EASY_BLOCK("Get shared lock", profiler::colors::Silver);
         std::shared_lock<std::shared_mutex> lock{item.mtx};
+        EASY_END_BLOCK;
+
+
         const std::string& normalResult = item.data;
 
-        EASY_BLOCK("CompareData", profiler::colors::Silver);
+        EASY_BLOCK("Compare data", profiler::colors::Silver);
         if (readResult != normalResult) {
             throw std::exception{"Readed data incorrect!"};
         }
+        EASY_END_BLOCK;
     }
 
     const std::string _className;
