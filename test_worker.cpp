@@ -80,6 +80,6 @@ TEST(test_worker, ReadWorker) {
 
 
     EASY_PROFILER_DISABLE;
-    auto blocks_count = profiler::dumpBlocksToFile("ReadWorker.prof");
+    auto blocks_count = ::profiler::dumpBlocksToFile("ReadWorker.prof");
     std::cout << "Blocks count: " << blocks_count << std::endl;
 }

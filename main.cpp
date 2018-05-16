@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <locale>
+#include <cstdlib>
+#include <ctime>
 
 
 struct separated : std::numpunct<char>
@@ -19,6 +21,8 @@ int main(int argc, char** argv) {
 
     std::locale loc{std::cout.getloc(), new separated};
     std::cout.imbue(loc);
+
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     return RUN_ALL_TESTS();
 }

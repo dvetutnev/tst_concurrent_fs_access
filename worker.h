@@ -9,7 +9,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <exception>
 
@@ -19,7 +19,7 @@ struct Item
     std::string data;
     mutable std::shared_mutex mtx;
 };
-using TestData = std::map<std::string, Item>;
+using TestData = std::unordered_map<std::string, Item>;
 
 
 class BaseWorker
@@ -119,7 +119,7 @@ private:
 
         const std::string readResult = groupingChunk(chunks);
 
-        EASY_BLOCK("Find item", profiler::colors::Silver);
+        EASY_BLOCK("Find item", ::profiler::colors::Silver);
         const auto& item = _testData[filePath];
         EASY_END_BLOCK;
 

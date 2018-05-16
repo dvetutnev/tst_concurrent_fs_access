@@ -38,6 +38,8 @@ void BaseWorker::printResult() const {
 
 std::string groupingChunk(const std::vector<Chunk>& chunks) {
 
+    EASY_FUNCTION(::profiler::colors::Silver, ::profiler::OFF);
+
     std::size_t totalLength = 0;
     for (const auto& i : chunks) {
 

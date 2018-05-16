@@ -45,3 +45,15 @@ target_link_libraries(test_worker
     GTest::GTest
     easy_profiler
 )
+
+
+add_executable(test_data_set
+    test_data_set.cpp
+    data_set.cpp
+    generate.cpp
+    main.cpp
+)
+target_link_libraries(test_data_set
+    GTest::GTest
+    easy_profiler
+)
