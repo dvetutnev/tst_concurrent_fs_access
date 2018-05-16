@@ -56,6 +56,6 @@ std::string DataSet::getData(const std::string& key) const {
 
 const std::string& DataSet::getRandomKey() const {
 
-    auto i = (std::rand() * _count) / RAND_MAX;
+    auto i = (std::rand() * (_count - 1)) / RAND_MAX;
     return _keys[i];
 }

@@ -3,6 +3,10 @@
 #include <gtest/gtest.h>
 #include <easy/profiler.h>
 
+#include <atomic>
+#include <thread>
+#include <chrono>
+
 
 TEST(DataSet, getRandomKey) {
 
@@ -71,3 +75,241 @@ TEST(DataSet, compare) {
     ASSERT_TRUE(dataSet.compare("data_2.dat", normalData));
 }
 
+
+namespace {
+
+
+class ReadWorker
+{
+public:
+
+    ReadWorker(DataSet& dataSet)
+        : _dataSet{dataSet},
+          _data{"vmsbtrjhdrnnkHKlklHLz;lsjv;zlsnv;znlc;in;asc"}
+    {}
+
+    void start() {
+
+        _count = 0;
+        _isRun = true;
+        _thread = std::thread{&ReadWorker::worker, this};
+    }
+
+    void stop() {
+
+        _isRun = false;
+        _thread.join();
+        std::cout << "ReadWorker, iterations count: " << _count << std::endl;
+    }
+
+private:
+
+    void worker() {
+
+        while (_isRun) {
+
+            const std::string& key = _dataSet.getRandomKey();
+            _dataSet.compare(key, _data);
+
+            _count++;
+        }
+    }
+
+    DataSet& _dataSet;
+    const std::string _data;
+
+    std::size_t _count;
+    std::atomic_bool _isRun;
+    std::thread _thread;
+};
+
+
+class WriteWorker
+{
+public:
+
+    WriteWorker(DataSet& dataSet)
+        : _dataSet{dataSet},
+          _data{"vmsbtrjhdrnnkHKlklHLz;lsjv;zlsnv;znlc;in;asc"}
+    {}
+
+    void start() {
+
+        _count = 0;
+        _isRun = true;
+        _thread = std::thread{&WriteWorker::worker, this};
+    }
+
+    void stop() {
+
+        _isRun = false;
+        _thread.join();
+        std::cout << "WriteWorker, iterations count: " << _count << std::endl;
+    }
+
+private:
+
+    void worker() {
+
+        while (_isRun) {
+
+            const std::string& key = _dataSet.getRandomKey();
+            _dataSet.update(key, _data);
+
+            _count++;
+        }
+    }
+
+    DataSet& _dataSet;
+    const std::string _data;
+
+    std::size_t _count;
+    std::atomic_bool _isRun;
+    std::thread _thread;
+};
+
+}   // anonimus namespace
+
+
+TEST(DataSet, concurrentAccess_1) {
+
+    DataSet dataSet{1};
+
+
+    ReadWorker readWorker_1{dataSet};
+    ReadWorker readWorker_2{dataSet};
+    ReadWorker readWorker_3{dataSet};
+    ReadWorker readWorker_4{dataSet};
+
+    WriteWorker writeWorker{dataSet};
+
+
+    readWorker_1.start();
+    readWorker_2.start();
+    readWorker_3.start();
+    readWorker_4.start();
+
+    writeWorker.start();
+
+
+    std::this_thread::sleep_for(std::chrono::seconds{1});
+
+
+    readWorker_1.stop();
+    readWorker_2.stop();
+    readWorker_3.stop();
+    readWorker_4.stop();
+
+    writeWorker.stop();
+
+
+    SUCCEED();
+}
+
+
+TEST(DataSet, concurrentAccess_2) {
+
+    DataSet dataSet{2};
+
+
+    ReadWorker readWorker_1{dataSet};
+    ReadWorker readWorker_2{dataSet};
+    ReadWorker readWorker_3{dataSet};
+    ReadWorker readWorker_4{dataSet};
+
+    WriteWorker writeWorker{dataSet};
+
+
+    readWorker_1.start();
+    readWorker_2.start();
+    readWorker_3.start();
+    readWorker_4.start();
+
+    writeWorker.start();
+
+
+    std::this_thread::sleep_for(std::chrono::seconds{1});
+
+
+    readWorker_1.stop();
+    readWorker_2.stop();
+    readWorker_3.stop();
+    readWorker_4.stop();
+
+    writeWorker.stop();
+
+
+    SUCCEED();
+}
+
+
+TEST(DataSet, concurrentAccess_3) {
+
+    DataSet dataSet{3};
+
+
+    ReadWorker readWorker_1{dataSet};
+    ReadWorker readWorker_2{dataSet};
+    ReadWorker readWorker_3{dataSet};
+    ReadWorker readWorker_4{dataSet};
+
+    WriteWorker writeWorker{dataSet};
+
+
+    readWorker_1.start();
+    readWorker_2.start();
+    readWorker_3.start();
+    readWorker_4.start();
+
+    writeWorker.start();
+
+
+    std::this_thread::sleep_for(std::chrono::seconds{1});
+
+
+    readWorker_1.stop();
+    readWorker_2.stop();
+    readWorker_3.stop();
+    readWorker_4.stop();
+
+    writeWorker.stop();
+
+
+    SUCCEED();
+}
+
+
+TEST(DataSet, concurrentAccess_10) {
+
+    DataSet dataSet{10000};
+
+
+    ReadWorker readWorker_1{dataSet};
+    ReadWorker readWorker_2{dataSet};
+    ReadWorker readWorker_3{dataSet};
+    ReadWorker readWorker_4{dataSet};
+
+    WriteWorker writeWorker{dataSet};
+
+
+    readWorker_1.start();
+    readWorker_2.start();
+    readWorker_3.start();
+    readWorker_4.start();
+
+    writeWorker.start();
+
+
+    std::this_thread::sleep_for(std::chrono::seconds{1});
+
+
+    readWorker_1.stop();
+    readWorker_2.stop();
+    readWorker_3.stop();
+    readWorker_4.stop();
+
+    writeWorker.stop();
+
+
+    SUCCEED();
+}
