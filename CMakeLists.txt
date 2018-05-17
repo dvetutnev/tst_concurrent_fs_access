@@ -1,4 +1,4 @@
-project(tst_cuncurrent_fs_access CXX)
+project(tst_concurrent_fs_access CXX)
 cmake_minimum_required(VERSION 3.0)
 
 
