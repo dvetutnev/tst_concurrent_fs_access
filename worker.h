@@ -11,7 +11,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include <exception>
+#include <stdexcept>
 
 
 struct Item
@@ -80,7 +80,7 @@ protected:
         EASY_BLOCK("OpenFile")
         std::ifstream file{filePath, std::ios_base::in | std::ios_base::binary};
         if (!file) {
-            throw std::exception{"Open file failed!"};
+            throw std::runtime_error{"Open file failed!"};
         }
         EASY_END_BLOCK;
 
@@ -132,7 +132,7 @@ private:
 
         EASY_BLOCK("Compare data", profiler::colors::Silver);
         if (readResult != normalResult) {
-            throw std::exception{"Readed data incorrect!"};
+            throw std::runtime_error{"Readed data incorrect!"};
         }
         EASY_END_BLOCK;
     }
