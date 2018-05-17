@@ -62,7 +62,7 @@ std::string DataSet::getData(const std::string& key) const {
     std::shared_lock<std::shared_mutex> lock{item.bottomMtx};
     item.topMtx.unlock();
 
-    return item.data;
+    return std::string{item.data};
 }
 
 
