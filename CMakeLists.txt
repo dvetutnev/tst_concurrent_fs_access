@@ -41,6 +41,7 @@ add_executable(test_worker
     generate.cpp
     main.cpp
 )
+
 target_link_libraries(test_worker
     GTest::GTest
     easy_profiler
@@ -53,6 +54,12 @@ add_executable(test_data_set
     generate.cpp
     main.cpp
 )
+
+target_compile_definitions(test_data_set
+    PUBLIC -DDUMMY
+    #PUBLIC -DDISABLE_EASY_PROFILER
+)
+
 target_link_libraries(test_data_set
     GTest::GTest
     easy_profiler

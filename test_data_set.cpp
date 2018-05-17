@@ -1,7 +1,6 @@
 #include "data_set.h"
 
 #include <gtest/gtest.h>
-#include <easy/profiler.h>
 
 #include <atomic>
 #include <thread>
@@ -16,21 +15,6 @@ TEST(DataSet, getRandomKey) {
 
     std::cout << "dataSet.getRandomKey(): " << key << std::endl;
     ASSERT_TRUE(key == "data_1.dat" || key == "data_2.dat" || key == "data_3.dat");
-}
-
-
-TEST(DataSet, getRandomKey_10k) {
-
-    EASY_MAIN_THREAD;
-    EASY_PROFILER_ENABLE;
-
-    DataSet dataSet{10000};
-    const std::string& key = dataSet.getRandomKey();
-    std::cout << "dataSet.getRandomKey(): " << key << std::endl;
-
-    EASY_PROFILER_DISABLE;
-    auto blocks_count = ::profiler::dumpBlocksToFile("DataSet_getRandomKey_10k.prof");
-    std::cout << "Blocks count: " << blocks_count << std::endl;
 }
 
 
@@ -192,7 +176,7 @@ TEST(DataSet, concurrentAccess_1) {
     writeWorker.start();
 
 
-    std::this_thread::sleep_for(std::chrono::seconds{5});
+    std::this_thread::sleep_for(std::chrono::seconds{1});
 
 
     readWorker_1.stop();
@@ -228,7 +212,7 @@ TEST(DataSet, concurrentAccess_2) {
     writeWorker.start();
 
 
-    std::this_thread::sleep_for(std::chrono::seconds{5});
+    std::this_thread::sleep_for(std::chrono::seconds{1});
 
 
     readWorker_1.stop();
@@ -264,7 +248,7 @@ TEST(DataSet, concurrentAccess_3) {
     writeWorker.start();
 
 
-    std::this_thread::sleep_for(std::chrono::seconds{5});
+    std::this_thread::sleep_for(std::chrono::seconds{1});
 
 
     readWorker_1.stop();
@@ -291,7 +275,6 @@ TEST(DataSet, concurrentAccess_10k) {
 
     WriteWorker writeWorker{dataSet};
 
-
     readWorker_1.start();
     readWorker_2.start();
     readWorker_3.start();
@@ -300,7 +283,7 @@ TEST(DataSet, concurrentAccess_10k) {
     writeWorker.start();
 
 
-    std::this_thread::sleep_for(std::chrono::seconds{5});
+    std::this_thread::sleep_for(std::chrono::seconds{1});
 
 
     readWorker_1.stop();
@@ -309,7 +292,6 @@ TEST(DataSet, concurrentAccess_10k) {
     readWorker_4.stop();
 
     writeWorker.stop();
-
 
     SUCCEED();
 }
