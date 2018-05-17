@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <easy/profiler.h>
 
 
 #include <iostream>
@@ -16,6 +17,8 @@ struct separated : std::numpunct<char>
 
 
 int main(int argc, char** argv) {
+
+    EASY_MAIN_THREAD;
 
     ::testing::InitGoogleTest(&argc, argv);
 
