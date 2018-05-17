@@ -50,7 +50,7 @@ std::string DataSet::getData(const std::string& key) const {
 
     auto& item = _storage.at(key);
     std::shared_lock<std::shared_mutex> lock{item.mtx};
-    return item.data;
+    return std::string{item.data};
 }
 
 
