@@ -192,7 +192,7 @@ TEST(DataSet, concurrentAccess_1) {
     writeWorker.start();
 
 
-    std::this_thread::sleep_for(std::chrono::seconds{1});
+    std::this_thread::sleep_for(std::chrono::seconds{5});
 
 
     readWorker_1.stop();
@@ -228,7 +228,7 @@ TEST(DataSet, concurrentAccess_2) {
     writeWorker.start();
 
 
-    std::this_thread::sleep_for(std::chrono::seconds{1});
+    std::this_thread::sleep_for(std::chrono::seconds{5});
 
 
     readWorker_1.stop();
@@ -264,7 +264,7 @@ TEST(DataSet, concurrentAccess_3) {
     writeWorker.start();
 
 
-    std::this_thread::sleep_for(std::chrono::seconds{1});
+    std::this_thread::sleep_for(std::chrono::seconds{5});
 
 
     readWorker_1.stop();
@@ -279,7 +279,7 @@ TEST(DataSet, concurrentAccess_3) {
 }
 
 
-TEST(DataSet, concurrentAccess_10) {
+TEST(DataSet, concurrentAccess_10k) {
 
     DataSet dataSet{10000};
 
@@ -300,7 +300,7 @@ TEST(DataSet, concurrentAccess_10) {
     writeWorker.start();
 
 
-    std::this_thread::sleep_for(std::chrono::seconds{1});
+    std::this_thread::sleep_for(std::chrono::seconds{5});
 
 
     readWorker_1.stop();

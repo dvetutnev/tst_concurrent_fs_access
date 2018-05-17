@@ -2,6 +2,7 @@
 
 
 #include <string>
+#include <mutex>
 #include <shared_mutex>
 #include <unordered_map>
 #include <vector>
@@ -14,7 +15,8 @@ public:
     struct Item
     {
         std::string data;
-        mutable std::shared_mutex mtx;
+        mutable std::mutex topMtx;
+        mutable std::shared_mutex bottomMtx;
     };
 
     DataSet(std::size_t count, std::size_t length = 8 * 1024)

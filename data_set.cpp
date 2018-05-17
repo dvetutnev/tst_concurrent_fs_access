@@ -33,7 +33,11 @@ void DataSet::init() {
 void DataSet::update(const std::string& key, const std::string& data) {
 
     auto& item = _storage.at(key);
-    std::unique_lock<std::shared_mutex> lock{item.mtx};
+
+    item.topMtx.lock();
+    std::unique_lock<std::shared_mutex> lock{item.bottomMtx};
+    item.topMtx.unlock();
+
     item.data = data;
 }
 
@@ -41,7 +45,11 @@ void DataSet::update(const std::string& key, const std::string& data) {
 bool DataSet::compare(const std::string& key, const std::string& data) const {
 
     auto& item = _storage.at(key);
-    std::shared_lock<std::shared_mutex> lock{item.mtx};
+
+    item.topMtx.lock();
+    std::shared_lock<std::shared_mutex> lock{item.bottomMtx};
+    item.topMtx.unlock();
+
     return data == item.data;
 }
 
@@ -49,7 +57,11 @@ bool DataSet::compare(const std::string& key, const std::string& data) const {
 std::string DataSet::getData(const std::string& key) const {
 
     auto& item = _storage.at(key);
-    std::shared_lock<std::shared_mutex> lock{item.mtx};
+
+    item.topMtx.lock();
+    std::shared_lock<std::shared_mutex> lock{item.bottomMtx};
+    item.topMtx.unlock();
+
     return item.data;
 }
 
