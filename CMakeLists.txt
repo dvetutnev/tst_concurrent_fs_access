@@ -78,3 +78,5 @@ target_link_libraries(test_fs_errors
     GTest::GTest
     Boost::filesystem
 )
+
+configure_file(Кириллица.txt Кириллица.txt COPYONLY)

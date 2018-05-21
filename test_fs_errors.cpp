@@ -8,6 +8,16 @@
 #include <fstream>
 #include <system_error>
 #include <cerrno>
+#include <locale>
+
+
+TEST(FS, cyrillic_filepath) {
+
+    boost::filesystem::path::imbue(std::locale(""));
+    boost::filesystem::path filepath = "Кириллица.txt";
+    boost::filesystem::ifstream f{filepath};
+    ASSERT_TRUE(f.is_open());
+}
 
 
 TEST(FSErrors, boost_open_file) {
