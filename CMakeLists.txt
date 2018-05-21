@@ -7,6 +7,7 @@ conan_cmake_run(
     REQUIRES
         googletest/1.9.0-b2@odant/stable
         easy_profiler/2.0.0@odant/stable
+        boost/1.67.0@odant/testing
     BASIC_SETUP
     NO_OUTPUT_DIRS
     UPDATE
@@ -63,4 +64,17 @@ target_compile_definitions(test_data_set
 target_link_libraries(test_data_set
     GTest::GTest
     easy_profiler
+)
+
+
+find_package(Boost REQUIRED filesystem)
+
+add_executable(test_fs_errors
+        test_fs_errors.cpp
+        main.cpp
+)
+
+target_link_libraries(test_fs_errors
+    GTest::GTest
+    Boost::filesystem
 )
