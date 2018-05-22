@@ -2,6 +2,9 @@ project(tst_concurrent_fs_access CXX)
 cmake_minimum_required(VERSION 3.0)
 
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+
+
 include(conan.cmake)
 conan_cmake_run(
     REQUIRES
@@ -18,7 +21,10 @@ conan_cmake_run(
 
 find_package(GTest REQUIRED)
 find_package(easy_profiler REQUIRED)
-
+find_package(Boost REQUIRED
+    filesystem
+    locale
+)
 
 if(MSVC)
     add_definitions(
@@ -26,6 +32,7 @@ if(MSVC)
     )
 endif()
 
+enable_testing()
 
 #add_executable(main
 #    app.cpp
@@ -35,7 +42,7 @@ endif()
 #)
 #target_link_libraries(main GTest::GTest)
 
-
+# Worker
 add_executable(test_worker
     test_worker.cpp
     worker.cpp
@@ -48,7 +55,14 @@ target_link_libraries(test_worker
     easy_profiler
 )
 
+add_test(
+    NAME test_worker
+    COMMAND test_worker
+    WORKING_DIRECTORY bin
+)
 
+
+# DataSet
 add_executable(test_data_set
     test_data_set.cpp
     data_set.cpp
@@ -66,9 +80,14 @@ target_link_libraries(test_data_set
     easy_profiler
 )
 
+add_test(
+    NAME test_data_set
+    COMMAND test_data_set
+    WORKING_DIRECTORY bin
+)
 
-find_package(Boost REQUIRED filesystem locale)
 
+# FS errors
 add_executable(test_fs_errors
         test_fs_errors.cpp
         main.cpp
@@ -80,4 +99,29 @@ target_link_libraries(test_fs_errors
     Boost::locale
 )
 
-configure_file(Кириллица.txt Кириллица.txt COPYONLY)
+add_test(
+    NAME test_fs_errors
+    COMMAND test_fs_errors
+    WORKING_DIRECTORY bin
+)
+
+
+# Test utf path
+configure_file(Кириллица.txt bin/Кириллица.txt COPYONLY)
+
+add_executable(test_path_utf
+        test_path_utf.cpp
+        main.cpp
+)
+
+target_link_libraries(test_path_utf
+    GTest::GTest
+    Boost::filesystem
+    Boost::locale
+)
+
+add_test(
+    NAME test_path_utf
+    COMMAND test_path_utf
+    WORKING_DIRECTORY bin
+)
