@@ -23,6 +23,17 @@ TEST(FS, cyrillic_filepath) {
 }
 
 
+TEST(FS, cyrillic_filepath_wchar) {
+
+    std::locale loc{boost::locale::generator().generate("")};
+    boost::filesystem::path::imbue(loc);
+
+    boost::filesystem::path filepath = L"Кириллица.txt";
+    boost::filesystem::ifstream f{filepath};
+    ASSERT_TRUE(f.is_open());
+}
+
+
 TEST(FSErrors, boost_open_file) {
 
     boost::filesystem::path filepath = "not_exists";
