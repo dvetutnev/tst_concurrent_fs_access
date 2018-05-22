@@ -2,6 +2,7 @@
 
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/path.hpp>
+#include <boost/locale/generator.hpp>
 
 #include <string>
 #include <iostream>
@@ -13,7 +14,9 @@
 
 TEST(FS, cyrillic_filepath) {
 
-    boost::filesystem::path::imbue(std::locale(""));
+    std::locale loc{boost::locale::generator().generate("")};
+    boost::filesystem::path::imbue(loc);
+
     boost::filesystem::path filepath = "Кириллица.txt";
     boost::filesystem::ifstream f{filepath};
     ASSERT_TRUE(f.is_open());

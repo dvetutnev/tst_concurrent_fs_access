@@ -67,7 +67,7 @@ target_link_libraries(test_data_set
 )
 
 
-find_package(Boost REQUIRED filesystem)
+find_package(Boost REQUIRED filesystem locale)
 
 add_executable(test_fs_errors
         test_fs_errors.cpp
@@ -77,6 +77,7 @@ add_executable(test_fs_errors
 target_link_libraries(test_fs_errors
     GTest::GTest
     Boost::filesystem
+    Boost::locale
 )
 
 configure_file(Кириллица.txt Кириллица.txt COPYONLY)
