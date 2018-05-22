@@ -2,7 +2,8 @@
 
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/path.hpp>
-#include <boost/locale.hpp>
+#include <boost/locale/generator.hpp>
+#include <boost/locale/encoding_utf.hpp>
 
 #include <string>
 #include <locale>
