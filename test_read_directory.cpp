@@ -159,3 +159,29 @@ TEST(readDirectory, error_access_denied) {
         std::cout << "ecat.name(): " << ecat.name() << std::endl;
     }
 }
+
+
+TEST(readDirectory, error_not_directory) {
+
+    const boost::filesystem::path currentPath = boost::filesystem::current_path();
+    const boost::filesystem::path path = currentPath / "not_direcory";
+    boost::filesystem::ofstream f{path};
+    f << "not_directory";
+    f.close();
+
+    try {
+
+        oda::fs::readDirectory(path);
+        FAIL();
+
+    } catch (const oda::fs::Exception& e) {
+
+        std::cout << "e.what(): " << e.what() << std::endl;
+
+        const std::error_code& ec = e.code();
+        std::cout << "ec.value(): " << ec.value() << std::endl;
+
+        const std::error_category& ecat = ec.category();
+        std::cout << "ecat.name(): " << ecat.name() << std::endl;
+    }
+}
