@@ -94,14 +94,6 @@ std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>
 } // namespace oda
 
 
-TEST(Fake, fake) {
-
-    const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path basePath = currentPath / "test_read_directory";
-    TestDirectory testDirectory{basePath};
-}
-
-
 TEST(readDirectory, simple) {
 
     const boost::filesystem::path currentPath = boost::filesystem::current_path();
@@ -124,4 +116,46 @@ TEST(readDirectory, simple) {
     std::sort(std::begin(result), std::end(result));
 
     ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, not_exists) {
+
+    const boost::filesystem::path basePath = boost::filesystem::current_path() / "not_exists";
+    try {
+
+        oda::fs::readDirectory(basePath);
+        FAIL();
+
+    } catch (const oda::fs::Exception& e) {
+
+        std::cout << "e.what(): " << e.what() << std::endl;
+
+        const std::error_code& ec = e.code();
+        std::cout << "ec.value(): " << ec.value() << std::endl;
+
+        const std::error_category& ecat = ec.category();
+        std::cout << "ecat.name(): " << ecat.name() << std::endl;
+    }
+}
+
+
+TEST(readDirectory, access_denied) {
+
+    const boost::filesystem::path basePath = "/root";
+    try {
+
+        oda::fs::readDirectory(basePath);
+        FAIL();
+
+    } catch (const oda::fs::Exception& e) {
+
+        std::cout << "e.what(): " << e.what() << std::endl;
+
+        const std::error_code& ec = e.code();
+        std::cout << "ec.value(): " << ec.value() << std::endl;
+
+        const std::error_category& ecat = ec.category();
+        std::cout << "ecat.name(): " << ecat.name() << std::endl;
+    }
 }
