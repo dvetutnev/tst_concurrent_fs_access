@@ -1,5 +1,5 @@
 /*
- * ODA Filesystem exceptions
+ * ODA filesystem. Exceptions.
  * Dmitriy Vetutnev, ODANT 2018
 */
 

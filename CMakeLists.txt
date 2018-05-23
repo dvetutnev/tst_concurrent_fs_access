@@ -91,8 +91,8 @@ add_test(
 
 # FS errors
 add_executable(test_fs_errors
-        test_fs_errors.cpp
-        main.cpp
+    test_fs_errors.cpp
+    main.cpp
 )
 
 target_link_libraries(test_fs_errors
@@ -112,8 +112,8 @@ add_test(
 configure_file(Кириллица.txt bin/Кириллица.txt COPYONLY)
 
 add_executable(test_path_utf
-        test_path_utf.cpp
-        main.cpp
+    test_path_utf.cpp
+    main.cpp
 )
 
 target_link_libraries(test_path_utf
@@ -125,5 +125,25 @@ target_link_libraries(test_path_utf
 add_test(
     NAME test_path_utf
     COMMAND test_path_utf
+    WORKING_DIRECTORY bin
+)
+
+
+# Test readDirectory
+add_executable(test_read_directory
+    fs/directory.cpp
+    #
+    test_read_directory.cpp
+    main.cpp
+)
+
+target_link_libraries(test_read_directory
+    GTest::GTest
+    Boost::filesystem
+)
+
+add_test(
+    NAME test_read_directory
+    COMMAND test_read_directory
     WORKING_DIRECTORY bin
 )
