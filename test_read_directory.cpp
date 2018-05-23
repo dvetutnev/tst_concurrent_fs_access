@@ -120,6 +120,7 @@ TEST(readDirectory, simple) {
     std::sort(std::begin(normalResult), std::end(normalResult));
 
     oda::fs::Directory result = oda::fs::readDirectory(basePath);
+    std::sort(std::begin(result), std::end(result));
 
     ASSERT_EQ(result, normalResult);
 }
