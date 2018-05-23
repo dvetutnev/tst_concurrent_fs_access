@@ -42,6 +42,8 @@ enable_testing()
 #)
 #target_link_libraries(main GTest::GTest)
 
+include_directories(include)
+
 # Worker
 add_executable(test_worker
     test_worker.cpp
