@@ -93,6 +93,7 @@ std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>
 } // namespace fs
 } // namespace oda
 
+
 TEST(Fake, fake) {
 
     const boost::filesystem::path currentPath = boost::filesystem::current_path();

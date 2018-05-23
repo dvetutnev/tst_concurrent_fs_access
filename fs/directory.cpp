@@ -32,7 +32,7 @@ Directory readDirectory(const Path& p) {
         ++it;
     }
 
-    return std::move(result);
+    return result;
 }
 
 
