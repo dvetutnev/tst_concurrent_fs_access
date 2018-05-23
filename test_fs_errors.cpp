@@ -10,21 +10,7 @@
 #include <cerrno>
 #include <locale>
 
-#include <common/exception.h>
-
-
-namespace oda {
-namespace fs {
-
-
-class Exception : public oda::error::Exception
-{
-    using oda::error::Exception::Exception;
-};
-
-
-}   // namespace fs
-}   // namespace oda
+#include <fs/exception.h>
 
 
 TEST(oda_exception, error_code) {
