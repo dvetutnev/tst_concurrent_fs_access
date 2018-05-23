@@ -97,34 +97,34 @@ std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>
 TEST(readDirectory, simple) {
 
     const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path basePath = currentPath / "test_read_directory";
-    TestDirectory testDirectory{basePath};
+    const boost::filesystem::path path = currentPath / "test_read_directory";
+    TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
-        { basePath / "a1.txt",  false },
-        { basePath / "a2.txt",  false },
-        { basePath / "a3.bin",  false },
-        { basePath / "b1.txt",  false },
-        { basePath / "b2.txt",  false },
-        { basePath / "b3.bin",  false },
-        { basePath / "dir1",    true },
-        { basePath / "dir2",    true }
+        { path / "a1.txt",  false },
+        { path / "a2.txt",  false },
+        { path / "a3.bin",  false },
+        { path / "b1.txt",  false },
+        { path / "b2.txt",  false },
+        { path / "b3.bin",  false },
+        { path / "dir1",    true },
+        { path / "dir2",    true }
     };
     std::sort(std::begin(normalResult), std::end(normalResult));
 
-    oda::fs::Directory result = oda::fs::readDirectory(basePath);
+    oda::fs::Directory result = oda::fs::readDirectory(path);
     std::sort(std::begin(result), std::end(result));
 
     ASSERT_EQ(result, normalResult);
 }
 
 
-TEST(readDirectory, not_exists) {
+TEST(readDirectory, error_not_exists) {
 
-    const boost::filesystem::path basePath = boost::filesystem::current_path() / "not_exists";
+    const boost::filesystem::path path = boost::filesystem::current_path() / "not_exists";
     try {
 
-        oda::fs::readDirectory(basePath);
+        oda::fs::readDirectory(path);
         FAIL();
 
     } catch (const oda::fs::Exception& e) {
@@ -140,12 +140,12 @@ TEST(readDirectory, not_exists) {
 }
 
 
-TEST(readDirectory, access_denied) {
+TEST(readDirectory, error_access_denied) {
 
-    const boost::filesystem::path basePath = "/root";
+    const boost::filesystem::path path = "/root";
     try {
 
-        oda::fs::readDirectory(basePath);
+        oda::fs::readDirectory(path);
         FAIL();
 
     } catch (const oda::fs::Exception& e) {

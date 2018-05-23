@@ -15,20 +15,20 @@ namespace oda {
 namespace fs {
 
 
-Directory readDirectory(const Path& basePath) {
+Directory readDirectory(const Path& path) {
 
     Directory result;
 
     try {
 
-        boost::filesystem::directory_iterator it{basePath};
+        boost::filesystem::directory_iterator it{path};
         while (it != boost::filesystem::directory_iterator{}) {
 
-            const auto& path = it->path();
+            const auto& entryPath = it->path();
             const auto& fileStatus = it->status();
             const bool isDirectory = fileStatus.type() == boost::filesystem::directory_file;
 
-            result.push_back(DirectoryEntry{path, isDirectory});
+            result.push_back(DirectoryEntry{entryPath, isDirectory});
 
             ++it;
         }
@@ -36,7 +36,7 @@ Directory readDirectory(const Path& basePath) {
 
         const boost::system::error_code& boostEc = e.code();
         const std::error_code stdEc = std::make_error_code(static_cast<std::errc>(boostEc.value()));
-        throw Exception{stdEc, basePath.string()};
+        throw Exception{stdEc, path.string()};
     }
 
     return result;
