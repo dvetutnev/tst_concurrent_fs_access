@@ -7,6 +7,7 @@
 #include "fs/directory.h"
 
 #include <boost/filesystem/convenience.hpp>
+#include <boost/locale/encoding_utf.hpp>
 
 #include <cctype>
 #include <iostream>
@@ -35,7 +36,8 @@ public:
 
 private:
 
-    bool match(std::string::const_iterator, std::string::const_iterator, std::string::const_iterator, std::string::const_iterator) const;
+    template<typename It>
+    bool match(It, It, It, It) const;
 
     const bool _caseSensitive;
 
@@ -111,13 +113,14 @@ bool Glob::match(const Path& entryPath) const {
         return true;
     }
 
-    const std::string& pattern = _patternPath.string();
-    const std::string& entry = entryPath.string();
+    const std::u32string& pattern = boost::locale::conv::utf_to_utf<char32_t>(_patternPath.string());
+    const std::u32string& entry = boost::locale::conv::utf_to_utf<char32_t>(entryPath.string());
 
     return match(std::cbegin(pattern), std::cend(pattern), std::cbegin(entry), std::cend(entry));
 }
 
-bool Glob::match(std::string::const_iterator pIt, std::string::const_iterator pEndIt, std::string::const_iterator sIt, std::string::const_iterator sEndIt) const {
+template<typename It>
+bool Glob::match(It pIt, It pEndIt, It sIt, It sEndIt) const {
 
     while (pIt != pEndIt) {
 

@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <boost/locale/generator.hpp>
 
 #include <iostream>
 #include <locale>
@@ -16,10 +17,13 @@ struct separated : std::numpunct<char>
 
 int main(int argc, char** argv) {
 
+    std::locale defaultLocale{boost::locale::generator().generate("")};
+    std::locale::global(defaultLocale);
+
     ::testing::InitGoogleTest(&argc, argv);
 
-    std::locale loc{std::cout.getloc(), new separated};
-    std::cout.imbue(loc);
+    std::locale separatedLocale{std::cout.getloc(), new separated};
+    std::cout.imbue(separatedLocale);
 
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 

@@ -354,6 +354,22 @@ TEST(readDirectory, wildcard_case_sensitive_false_cyrillic) {
     ASSERT_EQ(result, normalResult);
 }
 
+#include <boost/algorithm/string/case_conv.hpp>
+#include <boost/locale.hpp>
+
+TEST(tolower, tolower) {
+
+    std::locale defaultLocale{boost::locale::generator().generate("")};
+    std::locale::global(defaultLocale);
+
+
+    std::wstring su = boost::locale::conv::utf_to_utf<wchar_t>(std::string{"ЯZА"});
+    std::wstring sl = boost::locale::conv::utf_to_utf<wchar_t>(std::string{"яzа"});
+    boost::algorithm::to_lower(su);
+    boost::algorithm::to_lower(sl);
+    ASSERT_EQ(su, sl);
+}
+
 
 TEST(readDirectory, error_not_exists) {
 
