@@ -8,6 +8,7 @@
 
 #include <boost/filesystem/convenience.hpp>
 
+#include <cctype>
 #include <iostream>
 
 
@@ -28,13 +29,15 @@ class Glob
 {
 public:
 
-    Glob(const Path&);
+    Glob(const Path&, CaseSensitive);
     const Path& dirPath() const;
     bool match(const Path&) const;
 
 private:
 
     bool match(std::string::const_iterator, std::string::const_iterator, std::string::const_iterator, std::string::const_iterator) const;
+
+    const bool _caseSensitive;
 
     Path _patternPath;
     Path _dirPath;
@@ -44,13 +47,13 @@ private:
 } // namspace internal
 
 
-Directory readDirectory(const Path& path, CaseSensitive) {
+Directory readDirectory(const Path& path, CaseSensitive caseSensitive) {
 
     Directory result;
 
     try {
 
-        internal::Glob glob{path};
+        internal::Glob glob{path, caseSensitive};
         boost::filesystem::directory_iterator it{glob.dirPath()};
         const boost::filesystem::directory_iterator end;
 
@@ -80,7 +83,9 @@ Directory readDirectory(const Path& path, CaseSensitive) {
 namespace internal {
 
 
-Glob::Glob(const Path& path) {
+Glob::Glob(const Path& path, CaseSensitive caseSensitive)
+    : _caseSensitive{ (caseSensitive == CaseSensitive::True) ? true : false}
+{
 
     const std::string& tail = path.filename().string();
     if (tail.find_first_of("*?") != std::string::npos) {
@@ -146,9 +151,19 @@ bool Glob::match(std::string::const_iterator pIt, std::string::const_iterator pE
 
         default:
 
-            if (*pIt != *sIt) {
+            if (_caseSensitive) {
 
-                return false;
+                if (*pIt != *sIt) {
+
+                    return false;
+                }
+            } else {
+
+                if (std::tolower(*pIt) != std::tolower(*sIt)) {
+
+                    return false;
+
+                }
             }
 
             ++pIt;
