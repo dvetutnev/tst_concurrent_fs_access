@@ -38,7 +38,18 @@ inline bool operator< (const DirectoryEntry& lhs, const DirectoryEntry& rhs) {
 
 using Directory = std::vector<DirectoryEntry>;
 
-Directory readDirectory(const Path&);
+enum class CaseSensitive
+{
+    True = true,
+    False = false,
+#ifdef _WIN32
+    Default = True
+#else
+    Default = False
+#endif
+};
+
+Directory readDirectory(const Path&, CaseSensitive caseSensitive = CaseSensitive::Default);
 
 
 } // namespace fs

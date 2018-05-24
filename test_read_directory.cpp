@@ -81,7 +81,7 @@ TestDirectory::TestDirectory(const boost::filesystem::path& p)
 
 TestDirectory::~TestDirectory() {
 
-    boost::filesystem::remove_all(_basePath);
+    //boost::filesystem::remove_all(_basePath);
 }
 
 } // anonymous namespace
@@ -251,6 +251,55 @@ TEST(readDirectory, wildcard_question_mark_and_asterisk) {
     std::sort(std::begin(normalResult), std::end(normalResult));
 
     oda::fs::Directory result = oda::fs::readDirectory(path / "b?.*");
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, wildcard_case_sensitive_true) {
+
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    TestDirectory testDirectory{path};
+    {
+        boost::filesystem::ofstream f1{path / "case_sensitive_1.tmp"};
+        f1 << "case_sensitive_1.tmp";
+        boost::filesystem::ofstream f2{path / "Case_Sensitive_2.tmp"};
+        f2 << "Case_Sensitive_2.tmp";
+    }
+
+    oda::fs::Directory normalResult{
+        { path / "Case_Sensitive_2.tmp",    false }
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path / "Case_Sensitive_*", oda::fs::CaseSensitive::True);
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, wildcard_case_sensitive_false) {
+
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    TestDirectory testDirectory{path};
+    {
+        boost::filesystem::ofstream f1{path / "case_sensitive_1.tmp"};
+        f1 << "case_sensitive_1.tmp";
+        boost::filesystem::ofstream f2{path / "Case_Sensitive_2.tmp"};
+        f2 << "Case_Sensitive_2.tmp";
+    }
+
+    oda::fs::Directory normalResult{
+        { path / "case_sensitive_1.tmp",    false },
+        { path / "Case_Sensitive_2.tmp",    false }
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path / "Case_Sensitive_*", oda::fs::CaseSensitive::False);
     std::sort(std::begin(result), std::end(result));
 
     ASSERT_EQ(result, normalResult);

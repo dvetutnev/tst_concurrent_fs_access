@@ -44,7 +44,7 @@ private:
 } // namspace internal
 
 
-Directory readDirectory(const Path& path) {
+Directory readDirectory(const Path& path, CaseSensitive) {
 
     Directory result;
 
