@@ -15,6 +15,12 @@ namespace oda {
 namespace fs {
 
 
+Path currentDirectory() {
+
+    return boost::filesystem::current_path();
+}
+
+
 namespace internal {
 
 

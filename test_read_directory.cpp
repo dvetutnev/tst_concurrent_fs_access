@@ -1,8 +1,7 @@
-#include <gtest/gtest.h>
-
-#include <boost/filesystem.hpp>
-
 #include <fs/directory.h>
+
+#include <gtest/gtest.h>
+#include <boost/filesystem.hpp>
 
 #include <algorithm>
 
@@ -106,8 +105,8 @@ std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>
 
 TEST(readDirectory, simple) {
 
-    const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path path = currentPath / "test_read_directory";
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "test_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -133,8 +132,8 @@ TEST(readDirectory, simple) {
 
 TEST(readDirectory, wildcard_asterisk) {
 
-    const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path path = currentPath / "test_read_directory";
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "test_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -160,8 +159,8 @@ TEST(readDirectory, wildcard_asterisk) {
 
 TEST(readDirectory, wildcard_asterisk_tail) {
 
-    const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path path = currentPath / "test_read_directory";
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "test_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -181,8 +180,8 @@ TEST(readDirectory, wildcard_asterisk_tail) {
 
 TEST(readDirectory, wildcard_asterisk_head) {
 
-    const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path path = currentPath / "test_read_directory";
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "test_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -202,8 +201,8 @@ TEST(readDirectory, wildcard_asterisk_head) {
 
 TEST(readDirectory, wildcard_asterisk_middle) {
 
-    const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path path = currentPath / "test_read_directory";
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "test_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -221,8 +220,8 @@ TEST(readDirectory, wildcard_asterisk_middle) {
 
 TEST(readDirectory, wildcard_question_mark) {
 
-    const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path path = currentPath / "test_read_directory";
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "test_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -240,8 +239,8 @@ TEST(readDirectory, wildcard_question_mark) {
 
 TEST(readDirectory, wildcard_question_mark_and_asterisk) {
 
-    const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path path = currentPath / "test_read_directory";
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "test_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -260,7 +259,7 @@ TEST(readDirectory, wildcard_question_mark_and_asterisk) {
 
 TEST(readDirectory, error_not_exists) {
 
-    const boost::filesystem::path path = boost::filesystem::current_path() / "not_exists";
+    const oda::fs::Path path = oda::fs::currentDirectory() / "not_exists";
     try {
 
         oda::fs::readDirectory(path);
@@ -282,9 +281,9 @@ TEST(readDirectory, error_not_exists) {
 TEST(readDirectory, error_access_denied) {
 
 #ifdef _WIN32
-    const boost::filesystem::path path = "C:\\Users\\Default\\Application Data";
+    const oda::fs::Path path = "C:\\Users\\Default\\Application Data";
 #else
-    const boost::filesystem::path path = "/root";
+    const oda::fs::Path path = "/root";
 #endif
     try {
 
@@ -306,8 +305,8 @@ TEST(readDirectory, error_access_denied) {
 
 TEST(readDirectory, error_not_directory) {
 
-    const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path path = currentPath / "not_direcory";
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "not_direcory";
     boost::filesystem::ofstream f{path};
     f << "not_directory";
     f.close();

@@ -17,6 +17,9 @@ namespace oda {
 namespace fs {
 
 
+Path currentDirectory();
+
+
 struct DirectoryEntry
 {
     Path path;
@@ -34,7 +37,6 @@ inline bool operator< (const DirectoryEntry& lhs, const DirectoryEntry& rhs) {
 }
 
 using Directory = std::vector<DirectoryEntry>;
-
 
 Directory readDirectory(const Path&);
 
