@@ -131,78 +131,6 @@ TEST(readDirectory, simple) {
 }
 
 
-TEST(readDirectory, error_not_exists) {
-
-    const boost::filesystem::path path = boost::filesystem::current_path() / "not_exists";
-    try {
-
-        oda::fs::readDirectory(path);
-        FAIL();
-
-    } catch (const oda::fs::Exception& e) {
-
-        std::cout << "e.what(): " << e.what() << std::endl;
-
-        const std::error_code& ec = e.code();
-        std::cout << "ec.value(): " << ec.value() << std::endl;
-
-        const std::error_category& ecat = ec.category();
-        std::cout << "ecat.name(): " << ecat.name() << std::endl;
-    }
-}
-
-
-TEST(readDirectory, error_access_denied) {
-
-#ifdef _WIN32
-    const boost::filesystem::path path = "C:\\Users\\Default\\Application Data";
-#else
-    const boost::filesystem::path path = "/root";
-#endif
-    try {
-
-        oda::fs::readDirectory(path);
-        FAIL();
-
-    } catch (const oda::fs::Exception& e) {
-
-        std::cout << "e.what(): " << e.what() << std::endl;
-
-        const std::error_code& ec = e.code();
-        std::cout << "ec.value(): " << ec.value() << std::endl;
-
-        const std::error_category& ecat = ec.category();
-        std::cout << "ecat.name(): " << ecat.name() << std::endl;
-    }
-}
-
-
-TEST(readDirectory, error_not_directory) {
-
-    const boost::filesystem::path currentPath = boost::filesystem::current_path();
-    const boost::filesystem::path path = currentPath / "not_direcory";
-    boost::filesystem::ofstream f{path};
-    f << "not_directory";
-    f.close();
-
-    try {
-
-        oda::fs::readDirectory(path);
-        FAIL();
-
-    } catch (const oda::fs::Exception& e) {
-
-        std::cout << "e.what(): " << e.what() << std::endl;
-
-        const std::error_code& ec = e.code();
-        std::cout << "ec.value(): " << ec.value() << std::endl;
-
-        const std::error_category& ecat = ec.category();
-        std::cout << "ecat.name(): " << ecat.name() << std::endl;
-    }
-}
-
-
 TEST(readDirectory, wildcard_asterisk) {
 
     const boost::filesystem::path currentPath = boost::filesystem::current_path();
@@ -327,4 +255,76 @@ TEST(readDirectory, wildcard_question_mark_and_asterisk) {
     std::sort(std::begin(result), std::end(result));
 
     ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, error_not_exists) {
+
+    const boost::filesystem::path path = boost::filesystem::current_path() / "not_exists";
+    try {
+
+        oda::fs::readDirectory(path);
+        FAIL();
+
+    } catch (const oda::fs::Exception& e) {
+
+        std::cout << "e.what(): " << e.what() << std::endl;
+
+        const std::error_code& ec = e.code();
+        std::cout << "ec.value(): " << ec.value() << std::endl;
+
+        const std::error_category& ecat = ec.category();
+        std::cout << "ecat.name(): " << ecat.name() << std::endl;
+    }
+}
+
+
+TEST(readDirectory, error_access_denied) {
+
+#ifdef _WIN32
+    const boost::filesystem::path path = "C:\\Users\\Default\\Application Data";
+#else
+    const boost::filesystem::path path = "/root";
+#endif
+    try {
+
+        oda::fs::readDirectory(path);
+        FAIL();
+
+    } catch (const oda::fs::Exception& e) {
+
+        std::cout << "e.what(): " << e.what() << std::endl;
+
+        const std::error_code& ec = e.code();
+        std::cout << "ec.value(): " << ec.value() << std::endl;
+
+        const std::error_category& ecat = ec.category();
+        std::cout << "ecat.name(): " << ecat.name() << std::endl;
+    }
+}
+
+
+TEST(readDirectory, error_not_directory) {
+
+    const boost::filesystem::path currentPath = boost::filesystem::current_path();
+    const boost::filesystem::path path = currentPath / "not_direcory";
+    boost::filesystem::ofstream f{path};
+    f << "not_directory";
+    f.close();
+
+    try {
+
+        oda::fs::readDirectory(path);
+        FAIL();
+
+    } catch (const oda::fs::Exception& e) {
+
+        std::cout << "e.what(): " << e.what() << std::endl;
+
+        const std::error_code& ec = e.code();
+        std::cout << "ec.value(): " << ec.value() << std::endl;
+
+        const std::error_category& ecat = ec.category();
+        std::cout << "ecat.name(): " << ecat.name() << std::endl;
+    }
 }
