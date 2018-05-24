@@ -46,6 +46,11 @@ TestDirectory::TestDirectory(const boost::filesystem::path& p)
         file << "a3.bin";
     }
     {
+        const boost::filesystem::path path = _basePath / "a33.bin";
+        boost::filesystem::ofstream file{path};
+        file << "a33.bin";
+    }
+    {
         const boost::filesystem::path path = _basePath / "b1.txt";
         boost::filesystem::ofstream file{path};
         file << "b1.txt";
@@ -59,6 +64,11 @@ TestDirectory::TestDirectory(const boost::filesystem::path& p)
         const boost::filesystem::path path = _basePath / "b3.bin";
         boost::filesystem::ofstream file{path};
         file << "b3.bin";
+    }
+    {
+        const boost::filesystem::path path = _basePath / "b33.bin";
+        boost::filesystem::ofstream file{path};
+        file << "b33.bin";
     }
     {
         const boost::filesystem::path path = _basePath / "dir1";
@@ -104,9 +114,11 @@ TEST(readDirectory, simple) {
         { path / "a1.txt",  false },
         { path / "a2.txt",  false },
         { path / "a3.bin",  false },
+        { path / "a33.bin", false },
         { path / "b1.txt",  false },
         { path / "b2.txt",  false },
         { path / "b3.bin",  false },
+        { path / "b33.bin", false },
         { path / "dir1",    true },
         { path / "dir2",    true }
     };
@@ -191,7 +203,7 @@ TEST(readDirectory, error_not_directory) {
 }
 
 
-TEST(readDirectory, wildcard) {
+TEST(readDirectory, wildcard_asterisk) {
 
     const boost::filesystem::path currentPath = boost::filesystem::current_path();
     const boost::filesystem::path path = currentPath / "test_read_directory";
@@ -201,9 +213,11 @@ TEST(readDirectory, wildcard) {
         { path / "a1.txt",  false },
         { path / "a2.txt",  false },
         { path / "a3.bin",  false },
+        { path / "a33.bin", false },
         { path / "b1.txt",  false },
         { path / "b2.txt",  false },
         { path / "b3.bin",  false },
+        { path / "b33.bin", false },
         { path / "dir1",    true },
         { path / "dir2",    true }
     };
@@ -216,7 +230,7 @@ TEST(readDirectory, wildcard) {
 }
 
 
-TEST(readDirectory, wildcard_tail) {
+TEST(readDirectory, wildcard_asterisk_tail) {
 
     const boost::filesystem::path currentPath = boost::filesystem::current_path();
     const boost::filesystem::path path = currentPath / "test_read_directory";
@@ -226,10 +240,90 @@ TEST(readDirectory, wildcard_tail) {
         { path / "a1.txt",  false },
         { path / "a2.txt",  false },
         { path / "a3.bin",  false },
+        { path / "a33.bin", false }
     };
     std::sort(std::begin(normalResult), std::end(normalResult));
 
     oda::fs::Directory result = oda::fs::readDirectory(path / "a*");
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, wildcard_asterisk_head) {
+
+    const boost::filesystem::path currentPath = boost::filesystem::current_path();
+    const boost::filesystem::path path = currentPath / "test_read_directory";
+    TestDirectory testDirectory{path};
+
+    oda::fs::Directory normalResult{
+        { path / "a3.bin",  false },
+        { path / "a33.bin", false },
+        { path / "b3.bin",  false },
+        { path / "b33.bin", false },
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path / "*.bin");
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, wildcard_asterisk_middle) {
+
+    const boost::filesystem::path currentPath = boost::filesystem::current_path();
+    const boost::filesystem::path path = currentPath / "test_read_directory";
+    TestDirectory testDirectory{path};
+
+    oda::fs::Directory normalResult{
+        { path / "b1.txt",  false },
+        { path / "b2.txt",  false },
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path / "b*.txt");
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, wildcard_question_mark) {
+
+    const boost::filesystem::path currentPath = boost::filesystem::current_path();
+    const boost::filesystem::path path = currentPath / "test_read_directory";
+    TestDirectory testDirectory{path};
+
+    oda::fs::Directory normalResult{
+        { path / "a1.txt",  false },
+        { path / "a2.txt",  false }
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path / "a?.txt");
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, wildcard_question_mark_and_asterisk) {
+
+    const boost::filesystem::path currentPath = boost::filesystem::current_path();
+    const boost::filesystem::path path = currentPath / "test_read_directory";
+    TestDirectory testDirectory{path};
+
+    oda::fs::Directory normalResult{
+        { path / "b1.txt",  false },
+        { path / "b2.txt",  false },
+        { path / "b3.bin",  false }
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path / "b?.*");
     std::sort(std::begin(result), std::end(result));
 
     ASSERT_EQ(result, normalResult);
