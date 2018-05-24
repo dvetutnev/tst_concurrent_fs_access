@@ -106,7 +106,7 @@ std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>
 TEST(readDirectory, simple) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -133,7 +133,7 @@ TEST(readDirectory, simple) {
 TEST(readDirectory, wildcard_asterisk) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -160,7 +160,7 @@ TEST(readDirectory, wildcard_asterisk) {
 TEST(readDirectory, wildcard_asterisk_tail) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -181,7 +181,7 @@ TEST(readDirectory, wildcard_asterisk_tail) {
 TEST(readDirectory, wildcard_asterisk_head) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -202,7 +202,7 @@ TEST(readDirectory, wildcard_asterisk_head) {
 TEST(readDirectory, wildcard_asterisk_middle) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -221,7 +221,7 @@ TEST(readDirectory, wildcard_asterisk_middle) {
 TEST(readDirectory, wildcard_question_mark) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -240,7 +240,7 @@ TEST(readDirectory, wildcard_question_mark) {
 TEST(readDirectory, wildcard_question_mark_and_asterisk) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -260,7 +260,7 @@ TEST(readDirectory, wildcard_question_mark_and_asterisk) {
 TEST(readDirectory, wildcard_case_sensitive_true) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
     TestDirectory testDirectory{path};
     {
         boost::filesystem::ofstream f1{path / "case_sensitive_1.tmp"};
@@ -281,10 +281,34 @@ TEST(readDirectory, wildcard_case_sensitive_true) {
 }
 
 
+TEST(readDirectory, wildcard_case_sensitive_true_cyrillic) {
+
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    TestDirectory testDirectory{path};
+    {
+        boost::filesystem::ofstream f1{path / "файл_1.tmp"};
+        f1 << "файл_1.tmp";
+        boost::filesystem::ofstream f2{path / "фАйЛ_2.tmp"};
+        f2 << "фАйЛ_2.tmp";
+    }
+
+    oda::fs::Directory normalResult{
+        { path / "фАйЛ_2.tmp",    false }
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path / "фАйЛ_*", oda::fs::CaseSensitive::True);
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
+
+
 TEST(readDirectory, wildcard_case_sensitive_false) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_read_directory";
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
     TestDirectory testDirectory{path};
     {
         boost::filesystem::ofstream f1{path / "case_sensitive_1.tmp"};
@@ -300,6 +324,31 @@ TEST(readDirectory, wildcard_case_sensitive_false) {
     std::sort(std::begin(normalResult), std::end(normalResult));
 
     oda::fs::Directory result = oda::fs::readDirectory(path / "Case_Sensitive_*", oda::fs::CaseSensitive::False);
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, wildcard_case_sensitive_false_cyrillic) {
+
+    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
+    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    TestDirectory testDirectory{path};
+    {
+        boost::filesystem::ofstream f1{path / "файл_1.tmp"};
+        f1 << "файл_1.tmp";
+        boost::filesystem::ofstream f2{path / "фАйЛ_2.tmp"};
+        f2 << "фАйЛ_2.tmp";
+    }
+
+    oda::fs::Directory normalResult{
+        { path / "файл_1.tmp",    false },
+        { path / "фАйЛ_2.tmp",    false }
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path / "фАйЛ_*", oda::fs::CaseSensitive::False);
     std::sort(std::begin(result), std::end(result));
 
     ASSERT_EQ(result, normalResult);
