@@ -22,15 +22,14 @@ Directory readDirectory(const Path& path) {
     try {
 
         boost::filesystem::directory_iterator it{path};
-        while (it != boost::filesystem::directory_iterator{}) {
+        const boost::filesystem::directory_iterator end;
+        for (; it != end; ++it) {
 
             const auto& entryPath = it->path();
             const auto& fileStatus = it->status();
             const bool isDirectory = fileStatus.type() == boost::filesystem::directory_file;
 
             result.push_back(DirectoryEntry{entryPath, isDirectory});
-
-            ++it;
         }
     } catch (const boost::filesystem::filesystem_error& e) {
 

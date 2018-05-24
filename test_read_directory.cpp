@@ -185,3 +185,48 @@ TEST(readDirectory, error_not_directory) {
         std::cout << "ecat.name(): " << ecat.name() << std::endl;
     }
 }
+
+
+TEST(readDirectory, wildcard) {
+
+    const boost::filesystem::path currentPath = boost::filesystem::current_path();
+    const boost::filesystem::path path = currentPath / "test_read_directory";
+    TestDirectory testDirectory{path};
+
+    oda::fs::Directory normalResult{
+        { path / "a1.txt",  false },
+        { path / "a2.txt",  false },
+        { path / "a3.bin",  false },
+        { path / "b1.txt",  false },
+        { path / "b2.txt",  false },
+        { path / "b3.bin",  false },
+        { path / "dir1",    true },
+        { path / "dir2",    true }
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path / "*");
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, wildcard_tail) {
+
+    const boost::filesystem::path currentPath = boost::filesystem::current_path();
+    const boost::filesystem::path path = currentPath / "test_read_directory";
+    TestDirectory testDirectory{path};
+
+    oda::fs::Directory normalResult{
+        { path / "a1.txt",  false },
+        { path / "a2.txt",  false },
+        { path / "a3.bin",  false },
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path / "a*");
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
