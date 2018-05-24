@@ -144,7 +144,7 @@ TEST(readDirectory, error_access_denied) {
 
 #ifdef _WIN32
     const boost::filesystem::path path = "C:\\Users\\Default\\Application Data";
-#elif
+#else
     const boost::filesystem::path path = "/root";
 #endif
     try {
