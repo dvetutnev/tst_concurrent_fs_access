@@ -16,6 +16,10 @@ conan_cmake_run(
     UPDATE
     BUILD
         outdated
+    IMPORTS
+        "bin, *.dll -> ./bin"
+        "bin, *.pdb -> ./bin"
+        "lib, *.so* -> ./bin"
 )
 
 
