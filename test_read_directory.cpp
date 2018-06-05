@@ -81,7 +81,7 @@ TestDirectory::TestDirectory(const boost::filesystem::path& p)
 
 TestDirectory::~TestDirectory() {
 
-    //boost::filesystem::remove_all(_basePath);
+    boost::filesystem::remove_all(_basePath);
 }
 
 } // anonymous namespace
@@ -107,6 +107,32 @@ TEST(readDirectory, simple) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
     const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    TestDirectory testDirectory{path};
+
+    oda::fs::Directory normalResult{
+        { path / "a1.txt",  false },
+        { path / "a2.txt",  false },
+        { path / "a3.bin",  false },
+        { path / "a33.bin", false },
+        { path / "b1.txt",  false },
+        { path / "b2.txt",  false },
+        { path / "b3.bin",  false },
+        { path / "b33.bin", false },
+        { path / "dir1",    true },
+        { path / "dir2",    true }
+    };
+    std::sort(std::begin(normalResult), std::end(normalResult));
+
+    oda::fs::Directory result = oda::fs::readDirectory(path);
+    std::sort(std::begin(result), std::end(result));
+
+    ASSERT_EQ(result, normalResult);
+}
+
+
+TEST(readDirectory, relative_path) {
+
+    const oda::fs::Path path = "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -334,7 +360,7 @@ TEST(readDirectory, wildcard_case_sensitive_false_cyrillic) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
     const oda::fs::Path path = currentDirectory / "dataset_read_directory";
-    //TestDirectory testDirectory{path};
+    TestDirectory testDirectory{path};
     {
         boost::filesystem::ofstream f1{path / "файл_1.tmp"};
         f1 << "файл_1.tmp";
