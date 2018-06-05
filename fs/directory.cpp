@@ -88,16 +88,17 @@ namespace internal {
 Glob::Glob(const Path& path, CaseSensitive caseSensitive)
     : _caseSensitive{ (caseSensitive == CaseSensitive::True) ? true : false}
 {
+    const Path& _path = (_caseSensitive) ? path : Path{boost::locale::to_lower(path.native())};
 
     const std::string& tail = path.filename().string();
     if (tail.find_first_of("*?") != std::string::npos) {
 
-        _patternPath = path;
-        _dirPath = path.parent_path();
+        _patternPath = _path;
+        _dirPath = _path.parent_path();
 
     } else {
 
-        _dirPath = path;
+        _dirPath = _path;
     }
 }
 
@@ -113,7 +114,7 @@ bool Glob::match(const Path& entryPath) const {
         return true;
     }
 
-    const auto& pattern = (_caseSensitive) ? _patternPath.native() : boost::locale::to_lower(_patternPath.native());
+    const auto& pattern = _patternPath.native();
     const auto& entry = (_caseSensitive) ? entryPath.native() : boost::locale::to_lower(entryPath.native());
 
     return match(std::cbegin(pattern), std::cend(pattern), std::cbegin(entry), std::cend(entry));
