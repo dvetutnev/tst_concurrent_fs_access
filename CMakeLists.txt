@@ -28,6 +28,7 @@ find_package(easy_profiler REQUIRED)
 find_package(Boost REQUIRED
     filesystem
     locale
+    thread
 )
 
 if(MSVC)
@@ -59,7 +60,9 @@ add_executable(test_worker
 target_link_libraries(test_worker
     GTest::GTest
     Boost::locale
+    Boost::filesystem
     Boost::system
+    Boost::thread
     easy_profiler
 )
 
@@ -86,7 +89,9 @@ target_compile_definitions(test_data_set
 target_link_libraries(test_data_set
     GTest::GTest
     Boost::locale
+    Boost::filesystem
     Boost::system
+    Boost::thread
     easy_profiler
 )
 
@@ -107,6 +112,7 @@ target_link_libraries(test_fs_errors
     GTest::GTest
     Boost::locale
     Boost::filesystem
+    Boost::thread
 )
 
 add_test(
@@ -128,6 +134,7 @@ target_link_libraries(test_path_utf
     GTest::GTest
     Boost::locale
     Boost::filesystem
+    Boost::thread
 )
 
 add_test(
@@ -149,6 +156,7 @@ target_link_libraries(test_read_directory
     GTest::GTest
     Boost::locale
     Boost::filesystem
+    Boost::thread
 )
 
 add_test(

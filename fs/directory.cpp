@@ -7,7 +7,7 @@
 #include "fs/directory.h"
 
 #include <boost/filesystem/convenience.hpp>
-#include <boost/locale/encoding_utf.hpp>
+#include <boost/locale/conversion.hpp>
 
 #include <cctype>
 #include <iostream>
@@ -113,8 +113,8 @@ bool Glob::match(const Path& entryPath) const {
         return true;
     }
 
-    const std::u32string& pattern = boost::locale::conv::utf_to_utf<char32_t>(_patternPath.string());
-    const std::u32string& entry = boost::locale::conv::utf_to_utf<char32_t>(entryPath.string());
+    const auto& pattern = (_caseSensitive) ? _patternPath.native() : boost::locale::to_lower(_patternPath.native());
+    const auto& entry = (_caseSensitive) ? entryPath.native() : boost::locale::to_lower(entryPath.native());
 
     return match(std::cbegin(pattern), std::cend(pattern), std::cbegin(entry), std::cend(entry));
 }
@@ -154,19 +154,9 @@ bool Glob::match(It pIt, It pEndIt, It sIt, It sEndIt) const {
 
         default:
 
-            if (_caseSensitive) {
+            if (*pIt != *sIt) {
 
-                if (*pIt != *sIt) {
-
-                    return false;
-                }
-            } else {
-
-                if (std::tolower(*pIt) != std::tolower(*sIt)) {
-
-                    return false;
-
-                }
+                return false;
             }
 
             ++pIt;

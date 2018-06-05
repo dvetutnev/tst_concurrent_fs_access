@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <boost/locale/generator.hpp>
+#include <boost/filesystem/path.hpp>
 
 #include <iostream>
 #include <locale>
@@ -19,6 +20,9 @@ int main(int argc, char** argv) {
 
     std::locale defaultLocale{boost::locale::generator().generate("")};
     std::locale::global(defaultLocale);
+    std::cout.imbue(defaultLocale);
+    std::wcout.imbue(defaultLocale);
+    boost::filesystem::path::imbue(defaultLocale);
 
     ::testing::InitGoogleTest(&argc, argv);
 
