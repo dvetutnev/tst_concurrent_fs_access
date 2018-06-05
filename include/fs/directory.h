@@ -40,8 +40,8 @@ using Directory = std::vector<DirectoryEntry>;
 
 enum class CaseSensitive
 {
-    True = true,
-    False = false,
+    True,
+    False,
 #ifdef _WIN32
     Default = True
 #else
