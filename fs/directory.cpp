@@ -74,7 +74,11 @@ Directory readDirectory(const Path& path, CaseSensitive caseSensitive) {
     } catch (const boost::filesystem::filesystem_error& e) {
 
         const boost::system::error_code& boostEc = e.code();
-        const std::error_code stdEc = std::make_error_code(static_cast<std::errc>(boostEc.value()));
+#ifdef _WIN32
+        const std::error_code stdEc{boostEc.value(), std::system_category()};
+#else
+        const std::error_code stdEc{boostEc.value(), std::generic_category()};
+#endif
         throw Exception{stdEc, path.string()};
     }
 
@@ -88,17 +92,15 @@ namespace internal {
 Glob::Glob(const Path& path, CaseSensitive caseSensitive)
     : _caseSensitive{ (caseSensitive == CaseSensitive::True) ? true : false}
 {
-    const Path& _path = (_caseSensitive) ? path : Path{boost::locale::to_lower(path.native())};
-
     const std::string& tail = path.filename().string();
     if (tail.find_first_of("*?") != std::string::npos) {
 
-        _patternPath = _path;
-        _dirPath = _path.parent_path();
+        _patternPath = (_caseSensitive) ? path : Path{boost::locale::to_lower(path.native())};
+        _dirPath = path.parent_path();
 
     } else {
 
-        _dirPath = _path;
+        _dirPath = path;
     }
 }
 

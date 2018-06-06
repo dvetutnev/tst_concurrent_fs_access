@@ -43,9 +43,9 @@ enum class CaseSensitive
     True,
     False,
 #ifdef _WIN32
-    Default = True
-#else
     Default = False
+#else
+    Default = True
 #endif
 };
 
