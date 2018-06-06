@@ -164,5 +164,17 @@ bool Glob::match(It pIt, It pEndIt, It sIt, It sEndIt) const {
 } // namespace internal
 
 
+void createDirectory(const Path& path) {
+
+    try {
+        boost::filesystem::create_directory(path);
+
+    } catch (const boost::filesystem::filesystem_error& ex) {
+
+        internal::reThrow(ex, path.string());
+    }
+}
+
+
 } // namespace fs
 } // namespace oda

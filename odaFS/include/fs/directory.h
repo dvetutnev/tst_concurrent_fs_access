@@ -19,7 +19,7 @@ namespace fs {
 
 Path currentDirectory();
 
-
+// readDirectory
 struct DirectoryEntry
 {
     Path path;
@@ -50,6 +50,8 @@ enum class CaseSensitive
 };
 
 Directory readDirectory(const Path&, CaseSensitive caseSensitive = CaseSensitive::Default);
+
+void createDirectory(const Path&);
 
 
 } // namespace fs

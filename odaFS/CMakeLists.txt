@@ -10,6 +10,7 @@ find_package(Boost REQUIRED
     COMPONENTS
         filesystem
         locale
+        thread
 )
 
 
@@ -25,6 +26,7 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PUBLIC Boost::filesystem
     PUBLIC Boost::locale
+    PUBLIC Boost::thread
 )
 
 
