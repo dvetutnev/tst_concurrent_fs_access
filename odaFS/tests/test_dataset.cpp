@@ -7,7 +7,7 @@
 #include <chrono>
 
 
-TEST(DataSet, getRandomKey) {
+TEST(DataSet, getRandomPath) {
 
     DataSet dataSet{3};
 
@@ -15,6 +15,19 @@ TEST(DataSet, getRandomKey) {
 
     std::cout << "dataSet.getRandomKey(): " << path << std::endl;
     ASSERT_TRUE(path == "data_1.dat" || path == "data_2.dat" || path == "data_3.dat");
+}
+
+
+TEST(DataSet, getAllPaths) {
+
+    DataSet dataSet{3};
+
+    const auto& paths = dataSet.getAllPaths();
+
+    ASSERT_EQ(paths.size(), 3);
+    ASSERT_EQ(paths[0], "data_1.dat");
+    ASSERT_EQ(paths[1], "data_2.dat");
+    ASSERT_EQ(paths[2], "data_3.dat");
 }
 
 

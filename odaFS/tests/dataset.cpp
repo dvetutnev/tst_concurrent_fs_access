@@ -71,6 +71,11 @@ const oda::fs::Path& DataSet::getRandomPath() const {
 }
 
 
+const std::vector<oda::fs::Path>& DataSet::getAllPaths() const {
+
+    return _paths;
+}
+
 void generate_data(char* buffer, std::size_t length) {
 
     int* const start = reinterpret_cast<int*>(buffer);

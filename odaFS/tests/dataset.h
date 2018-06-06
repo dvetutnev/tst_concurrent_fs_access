@@ -28,6 +28,7 @@ public:
     bool compare(const oda::fs::Path&, const std::string&) const;
     const oda::fs::Path& getRandomPath() const;
     std::string getData(const oda::fs::Path&) const;
+    const std::vector<oda::fs::Path>& getAllPaths() const;
 
 private:
 
