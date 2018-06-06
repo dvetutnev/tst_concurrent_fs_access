@@ -6,7 +6,9 @@
 void DataSet::init() {
 
     _storage.reserve(_count);
-    _keys.reserve(_count);
+    _paths.reserve(_count);
+
+    const oda::fs::Path dir = "dataset";
 
     for (std::size_t i = 1; i <= _count; i++) {
 
@@ -14,16 +16,18 @@ void DataSet::init() {
         data.resize(_length);
         generate_data(&data[0], _length);
 
-        const std::string key = "data_" + std::to_string(i) + ".dat";
-        _storage[key].data = data;
+        const oda::fs::Path filepath = "data_" + std::to_string(i) + ".dat";
+        const auto& key = filepath.native();
+        _storage[key].data.swap(data);
 
-        _keys.push_back(key);
+        _paths.push_back(filepath);
     }
 }
 
 
-void DataSet::update(const std::string& key, const std::string& data) {
+void DataSet::update(const oda::fs::Path& path, const std::string& data) {
 
+    const auto& key = path.native();
     auto& item = _storage.at(key);
 
     item.topMtx.lock();
@@ -34,8 +38,9 @@ void DataSet::update(const std::string& key, const std::string& data) {
 }
 
 
-bool DataSet::compare(const std::string& key, const std::string& data) const {
+bool DataSet::compare(const oda::fs::Path& path, const std::string& data) const {
 
+    const auto& key = path.native();
     auto& item = _storage.at(key);
 
     item.topMtx.lock();
@@ -46,8 +51,9 @@ bool DataSet::compare(const std::string& key, const std::string& data) const {
 }
 
 
-std::string DataSet::getData(const std::string& key) const {
+std::string DataSet::getData(const oda::fs::Path& path) const {
 
+    const auto& key = path.native();
     auto& item = _storage.at(key);
 
     item.topMtx.lock();
@@ -58,10 +64,10 @@ std::string DataSet::getData(const std::string& key) const {
 }
 
 
-const std::string& DataSet::getRandomKey() const {
+const oda::fs::Path& DataSet::getRandomPath() const {
 
     auto i = (std::rand() * (_count - 1)) / RAND_MAX;
-    return _keys[i];
+    return _paths[i];
 }
 
 

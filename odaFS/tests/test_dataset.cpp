@@ -11,10 +11,10 @@ TEST(DataSet, getRandomKey) {
 
     DataSet dataSet{3};
 
-    const std::string& key = dataSet.getRandomKey();
+    const oda::fs::Path& path = dataSet.getRandomPath();
 
-    std::cout << "dataSet.getRandomKey(): " << key << std::endl;
-    ASSERT_TRUE(key == "data_1.dat" || key == "data_2.dat" || key == "data_3.dat");
+    std::cout << "dataSet.getRandomKey(): " << path << std::endl;
+    ASSERT_TRUE(path == "data_1.dat" || path == "data_2.dat" || path == "data_3.dat");
 }
 
 
@@ -92,8 +92,8 @@ private:
 
         while (_isRun) {
 
-            const std::string& key = _dataSet.getRandomKey();
-            _dataSet.compare(key, _data);
+            const oda::fs::Path& path = _dataSet.getRandomPath();
+            _dataSet.compare(path, _data);
 
             _count++;
         }
@@ -137,8 +137,8 @@ private:
 
         while (_isRun) {
 
-            const std::string& key = _dataSet.getRandomKey();
-            _dataSet.update(key, _data);
+            const oda::fs::Path& path = _dataSet.getRandomPath();
+            _dataSet.update(path, _data);
 
             _count++;
         }

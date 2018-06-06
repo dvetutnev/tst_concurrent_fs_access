@@ -1,6 +1,8 @@
 #pragma once
 
 
+#include <fs/common.h>
+
 #include <string>
 #include <mutex>
 #include <shared_mutex>
@@ -22,10 +24,10 @@ public:
         init();
     }
 
-    void update(const std::string& key, const std::string& data);
-    bool compare(const std::string& key, const std::string& data) const;
-    const std::string& getRandomKey() const;
-    std::string getData(const std::string& key) const;
+    void update(const oda::fs::Path&, const std::string&);
+    bool compare(const oda::fs::Path&, const std::string&) const;
+    const oda::fs::Path& getRandomPath() const;
+    std::string getData(const oda::fs::Path&) const;
 
 private:
 
@@ -41,6 +43,6 @@ private:
     const std::size_t _count;
     const std::size_t _length;
 
-    std::unordered_map<std::string, Item> _storage;
-    std::vector<std::string> _keys;
+    std::unordered_map<oda::fs::Path::string_type, Item> _storage;
+    std::vector<oda::fs::Path> _paths;
 };
