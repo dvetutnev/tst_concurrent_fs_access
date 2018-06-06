@@ -66,7 +66,7 @@ std::string DataSet::getData(const oda::fs::Path& path) const {
 
 const oda::fs::Path& DataSet::getRandomPath() const {
 
-    auto i = (std::rand() * (_count - 1)) / RAND_MAX;
+    const std::size_t i = (static_cast<std::size_t>(std::rand()) * (_count - 1)) / RAND_MAX;
     return _paths[i];
 }
 
