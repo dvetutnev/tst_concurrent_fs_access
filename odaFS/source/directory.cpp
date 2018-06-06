@@ -6,8 +6,8 @@
 
 #include "fs/directory.h"
 
-#include <boost/filesystem/convenience.hpp>
 #include <boost/locale/conversion.hpp>
+
 #include <iostream>
 
 namespace oda {
@@ -68,15 +68,9 @@ Directory readDirectory(const Path& path, CaseSensitive caseSensitive) {
                 result.push_back(DirectoryEntry{entryPath, isDirectory});
             }
         }
-    } catch (const boost::filesystem::filesystem_error& e) {
+    } catch (const boost::filesystem::filesystem_error& ex) {
 
-        const boost::system::error_code& boostEc = e.code();
-#ifdef _WIN32
-        const std::error_code stdEc{boostEc.value(), std::system_category()};
-#else
-        const std::error_code stdEc{boostEc.value(), std::generic_category()};
-#endif
-        throw Exception{stdEc, path.string()};
+        internal::reThrow(ex, path.string());
     }
 
     return result;

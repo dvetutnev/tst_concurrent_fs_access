@@ -15,6 +15,7 @@ find_package(Boost REQUIRED
 
 add_library(${PROJECT_NAME} STATIC
     source/directory.cpp
+    source/error.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

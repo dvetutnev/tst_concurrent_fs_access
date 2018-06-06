@@ -8,7 +8,7 @@
 
 
 #include "fs/common.h"
-#include "fs/exception.h"
+#include "fs/error.h"
 
 #include <vector>
 
