@@ -72,35 +72,6 @@ add_subdirectory(odaFS)
 #)
 
 
-# DataSet
-#add_executable(test_data_set
-#    test_data_set.cpp
-#    data_set.cpp
-#    generate.cpp
-#    main.cpp
-#)
-
-#target_compile_definitions(test_data_set
-#    PUBLIC -DDUMMY
-#    #PUBLIC -DDISABLE_EASY_PROFILER
-#)
-
-#target_link_libraries(test_data_set
-#    GTest::GTest
-#    Boost::locale
-#    Boost::filesystem
-#    Boost::system
-#    Boost::thread
-#    easy_profiler
-#)
-
-#add_test(
-#    NAME test_data_set
-#    COMMAND test_data_set
-#    WORKING_DIRECTORY bin
-#)
-
-
 # FS errors
 #add_executable(test_fs_errors
 #    test_fs_errors.cpp

@@ -2,7 +2,7 @@ project(odaFS CXX)
 cmake_minimum_required(VERSION 3.0)
 
 
-option(ODAFS_TESTS "Enable odaFS unittests" ON)
+option(ODA_FS_TESTS "Enable odaFS tests" ON)
 
 
 #find_package(easy_profiler REQUIRED)
@@ -31,6 +31,6 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 
-if(ODAFS_TESTS)
+if(ODA_FS_TESTS)
     add_subdirectory(tests)
 endif()
