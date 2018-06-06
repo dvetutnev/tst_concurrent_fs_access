@@ -43,7 +43,7 @@ Directory readDirectory(const Path& path, CaseSensitive caseSensitive) {
         }
     } catch (const boost::filesystem::filesystem_error& ex) {
 
-        internal::reThrow(ex, path.string());
+        internal::reThrow(ex, path);
     }
 
     return result;
