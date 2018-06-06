@@ -12,6 +12,7 @@ conan_cmake_run(
         easy_profiler/2.0.0@odant/stable
         boost/1.67.0@odant/testing
     BASIC_SETUP
+    CMAKE_TARGETS
     NO_OUTPUT_DIRS
     UPDATE
     BUILD
