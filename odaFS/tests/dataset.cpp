@@ -1,9 +1,12 @@
 #include "dataset.h"
 
+#include <cassert>
 #include <cstdlib>
 
 
 void DataSet::init() {
+
+    assert(_count >= 1);
 
     _storage.reserve(_count);
     _paths.reserve(_count);
