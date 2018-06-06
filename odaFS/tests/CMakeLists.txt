@@ -6,36 +6,36 @@ find_package(GTest REQUIRED)
 
 
 # Test readDirectory
-add_executable(test_readDirectory
-    test_readDirectory.cpp
+add_executable(test_read_directory
+    test_read_directory.cpp
     test_main.cpp
 )
 
-target_link_libraries(test_readDirectory
+target_link_libraries(test_read_directory
     odaFS
     GTest::GTest
 )
 
 add_test(
-    NAME test_readDirectory
-    COMMAND test_readDirectory
+    NAME test_read_directory
+    COMMAND test_read_directory
     WORKING_DIRECTORY bin
 )
 
 
 # Test createDirectory
-add_executable(test_createDirectory
-    test_createDirectory.cpp
+add_executable(test_create_directory
+    test_create_directory.cpp
     test_main.cpp
 )
 
-target_link_libraries(test_createDirectory
+target_link_libraries(test_create_directory
     odaFS
     GTest::GTest
 )
 
 add_test(
-    NAME test_createDirectory
-    COMMAND test_createDirectory
+    NAME test_create_directory
+    COMMAND test_create_directory
     WORKING_DIRECTORY bin
 )
