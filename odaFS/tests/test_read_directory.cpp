@@ -431,9 +431,15 @@ TEST(readDirectory, error_not_directory) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
     const oda::fs::Path path = currentDirectory / "not_direcory";
-    boost::filesystem::ofstream f{path};
-    f << "not_directory";
-    f.close();
+
+    if (boost::filesystem::exists(path)) {
+
+        boost::filesystem::remove_all(path);
+    }
+    {
+        boost::filesystem::ofstream f{path};
+        f << "not_directory";
+    }
 
     try {
 
