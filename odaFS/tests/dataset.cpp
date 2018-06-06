@@ -17,7 +17,7 @@ void DataSet::init() {
 
         std::string data;
         data.resize(_length);
-        generate_data(&data[0], _length);
+        generateData(&data[0], _length);
 
         const oda::fs::Path filepath = "data_" + std::to_string(i) + ".dat";
         const auto& key = filepath.native();
@@ -79,7 +79,7 @@ const std::vector<oda::fs::Path>& DataSet::getAllPaths() const {
     return _paths;
 }
 
-void generate_data(char* buffer, std::size_t length) {
+void generateData(char* buffer, std::size_t length) {
 
     int* const start = reinterpret_cast<int*>(buffer);
     int* const end = start + length / sizeof(int);

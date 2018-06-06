@@ -10,7 +10,7 @@
 #include <vector>
 
 
-void generate_data(char* buffer, std::size_t length);
+void generateData(char* buffer, std::size_t length);
 
 
 class DataSet
