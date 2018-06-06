@@ -50,7 +50,7 @@ TEST(createDirectory, already_exists_directory) {
 }
 
 
-TEST(createDirectory, already_exists_file) {
+TEST(createDirectory, error_already_exists_file) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
     const oda::fs::Path path = currentDirectory / "test_create_directory_already_exists_file";
@@ -64,6 +64,31 @@ TEST(createDirectory, already_exists_file) {
         f << "already_exists_file";
     }
 
+    try {
+
+        oda::fs::createDirectory(path);
+        FAIL();
+
+    } catch (const oda::fs::Exception& e) {
+
+        std::cout << "e.what(): " << e.what() << std::endl;
+
+        const std::error_code& ec = e.code();
+        std::cout << "ec.value(): " << ec.value() << std::endl;
+
+        const std::error_category& ecat = ec.category();
+        std::cout << "ecat.name(): " << ecat.name() << std::endl;
+    }
+}
+
+
+TEST(createDirectory, error_access_denied) {
+
+#ifdef _WIN32
+    const oda::fs::Path path = "C:\\System Volume Information\\test_create_directory_access_denied";
+#else
+    const oda::fs::Path path = "/root/test_create_directory_access_denied";
+#endif
     try {
 
         oda::fs::createDirectory(path);
