@@ -39,3 +39,16 @@ add_test(
     COMMAND test_create_directory
     WORKING_DIRECTORY bin
 )
+
+
+# Test DataSet
+add_executable(test_dataset
+    dataset.cpp
+    test_dataset.cpp
+    test_main.cpp
+)
+
+target_link_libraries(test_dataset
+    odaFS
+    GTest::GTest
+)

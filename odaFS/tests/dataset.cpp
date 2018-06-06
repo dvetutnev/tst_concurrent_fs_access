@@ -1,5 +1,4 @@
-#include "data_set.h"
-#include "generate.h"
+#include "dataset.h"
 
 #include <cstdlib>
 
@@ -63,4 +62,25 @@ const std::string& DataSet::getRandomKey() const {
 
     auto i = (std::rand() * (_count - 1)) / RAND_MAX;
     return _keys[i];
+}
+
+
+void generate_data(char* buffer, std::size_t length) {
+
+    int* const start = reinterpret_cast<int*>(buffer);
+    int* const end = start + length / sizeof(int);
+
+    for (int* i = start; i < end; i++) {
+
+        *i = static_cast<int>(std::rand());
+    }
+
+
+    char* const startTail = reinterpret_cast<char*>(end);
+    char* const endTail = startTail + length % sizeof(int);
+
+    for (char* i = startTail; i < endTail; i++) {
+
+        *i = static_cast<char>(std::rand());
+    }
 }
