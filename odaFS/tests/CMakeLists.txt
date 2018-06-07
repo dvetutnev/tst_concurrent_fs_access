@@ -5,17 +5,20 @@ cmake_minimum_required(VERSION 3.0)
 find_package(GTest REQUIRED)
 
 
-# Test readDirectory
-add_executable(test_read_directory
-    test_read_directory.cpp
-    test_main.cpp
+add_library(test_main STATIC test_main.cpp)
+target_link_libraries(test_main
+    PUBLIC GTest::GTest
+    PUBLIC Boost::filesystem
+    PUBLIC Boost::locale
 )
 
+
+# Test readDirectory
+add_executable(test_read_directory test_read_directory.cpp)
 target_link_libraries(test_read_directory
     odaFS
-    GTest::GTest
+    test_main
 )
-
 add_test(
     NAME test_read_directory
     COMMAND test_read_directory
@@ -24,16 +27,11 @@ add_test(
 
 
 # Test createDirectory
-add_executable(test_create_directory
-    test_create_directory.cpp
-    test_main.cpp
-)
-
+add_executable(test_create_directory test_create_directory.cpp)
 target_link_libraries(test_create_directory
     odaFS
-    GTest::GTest
+    test_main
 )
-
 add_test(
     NAME test_create_directory
     COMMAND test_create_directory
@@ -42,26 +40,24 @@ add_test(
 
 
 # Test DataSet
-add_executable(test_dataset
-    dataset.cpp
-    test_dataset.cpp
-    test_main.cpp
-)
-
+add_executable(test_dataset dataset.cpp test_dataset.cpp)
 target_link_libraries(test_dataset
     odaFS
-    GTest::GTest
+    test_main
 )
 
 
 # Test DataSetFiles
-add_executable(test_datasetfiles
-    dataset.cpp
-    test_datasetfiles.cpp
-    test_main.cpp
-)
-
+add_executable(test_datasetfiles dataset.cpp  test_datasetfiles.cpp)
 target_link_libraries(test_datasetfiles
     odaFS
-    GTest::GTest
+    test_main
+)
+
+
+# Test IO files
+add_executable(test_io_files test_io_files.cpp)
+target_link_libraries(test_io_files
+    odaFS
+    test_main
 )
