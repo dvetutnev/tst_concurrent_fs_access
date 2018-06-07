@@ -67,10 +67,67 @@ TEST(rwFile, readOnly_1) {
     DataSetFiles files{dataSet};
 
     ReadWorker readWorker_1{dataSet};
+    ReadWorker readWorker_2{dataSet};
+    ReadWorker readWorker_3{dataSet};
+    ReadWorker readWorker_4{dataSet};
 
     readWorker_1.start();
+    readWorker_2.start();
+    readWorker_3.start();
+    readWorker_4.start();
 
     std::this_thread::sleep_for(std::chrono::seconds{1});
 
     readWorker_1.stop();
+    readWorker_2.stop();
+    readWorker_3.stop();
+    readWorker_4.stop();
+}
+
+
+TEST(rwFile, readOnly_3) {
+
+    DataSet dataSet{3};
+    DataSetFiles files{dataSet};
+
+    ReadWorker readWorker_1{dataSet};
+    ReadWorker readWorker_2{dataSet};
+    ReadWorker readWorker_3{dataSet};
+    ReadWorker readWorker_4{dataSet};
+
+    readWorker_1.start();
+    readWorker_2.start();
+    readWorker_3.start();
+    readWorker_4.start();
+
+    std::this_thread::sleep_for(std::chrono::seconds{1});
+
+    readWorker_1.stop();
+    readWorker_2.stop();
+    readWorker_3.stop();
+    readWorker_4.stop();
+}
+
+
+TEST(rwFile, readOnly_10k) {
+
+    DataSet dataSet{10000};
+    DataSetFiles files{dataSet};
+
+    ReadWorker readWorker_1{dataSet};
+    ReadWorker readWorker_2{dataSet};
+    ReadWorker readWorker_3{dataSet};
+    ReadWorker readWorker_4{dataSet};
+
+    readWorker_1.start();
+    readWorker_2.start();
+    readWorker_3.start();
+    readWorker_4.start();
+
+    std::this_thread::sleep_for(std::chrono::seconds{1});
+
+    readWorker_1.stop();
+    readWorker_2.stop();
+    readWorker_3.stop();
+    readWorker_4.stop();
 }
