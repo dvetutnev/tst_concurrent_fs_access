@@ -52,3 +52,16 @@ target_link_libraries(test_dataset
     odaFS
     GTest::GTest
 )
+
+
+# Test DataSetFiles
+add_executable(test_datasetfiles
+    dataset.cpp
+    test_datasetfiles.cpp
+    test_main.cpp
+)
+
+target_link_libraries(test_datasetfiles
+    odaFS
+    GTest::GTest
+)

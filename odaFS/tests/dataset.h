@@ -47,3 +47,23 @@ private:
     std::unordered_map<oda::fs::Path::string_type, Item> _storage;
     std::vector<oda::fs::Path> _paths;
 };
+
+
+class DataSetFiles
+{
+public:
+
+    DataSetFiles(const DataSet& dataSet)
+        : _dataSet{dataSet}
+    {
+        init();
+    }
+
+    ~DataSetFiles();
+
+private:
+
+    void init();
+
+    const DataSet& _dataSet;
+};

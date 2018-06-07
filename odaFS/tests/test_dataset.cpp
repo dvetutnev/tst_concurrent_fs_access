@@ -11,7 +11,7 @@ TEST(DataSet, getRandomPath) {
 
     DataSet dataSet{3};
 
-    const oda::fs::Path& path = dataSet.getRandomPath();
+    const auto& path = dataSet.getRandomPath();
 
     std::cout << "dataSet.getRandomKey(): " << path << std::endl;
     ASSERT_TRUE(path == "data_1.dat" || path == "data_2.dat" || path == "data_3.dat");

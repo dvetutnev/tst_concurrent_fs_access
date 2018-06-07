@@ -1,5 +1,8 @@
 #include "dataset.h"
 
+#include <boost/filesystem/fstream.hpp>
+#include <boost/filesystem/operations.hpp>
+
 #include <cassert>
 #include <cstdlib>
 
@@ -78,6 +81,36 @@ const std::vector<oda::fs::Path>& DataSet::getAllPaths() const {
 
     return _paths;
 }
+
+
+void DataSetFiles::init() {
+
+    const auto& paths = _dataSet.getAllPaths();
+    for (const oda::fs::Path& path : paths) {
+
+        if (boost::filesystem::exists(path)) {
+
+            boost::filesystem::remove_all(path);
+        }
+        boost::filesystem::ofstream file{path, std::ios_base::binary};
+        const std::string& content = _dataSet.getData(path);
+        file.write(content.data(), content.length());
+    }
+}
+
+
+DataSetFiles::~DataSetFiles() {
+
+    const auto& paths = _dataSet.getAllPaths();
+    for (const oda::fs::Path& path : paths) {
+
+        if (boost::filesystem::exists(path)) {
+
+            boost::filesystem::remove_all(path);
+        }
+    }
+}
+
 
 void generateData(char* buffer, std::size_t length) {
 
