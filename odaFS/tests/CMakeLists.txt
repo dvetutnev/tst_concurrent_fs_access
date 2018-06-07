@@ -10,6 +10,7 @@ target_link_libraries(test_main
     PUBLIC GTest::GTest
     PUBLIC Boost::filesystem
     PUBLIC Boost::locale
+    PUBLIC Boost::thread
 )
 
 
