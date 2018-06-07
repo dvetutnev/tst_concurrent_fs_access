@@ -5,6 +5,7 @@
 
 
 #include "fs/directory.h"
+#include "fs/error.h"
 #include "glob.h"
 
 #include <iostream>

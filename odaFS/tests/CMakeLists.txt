@@ -63,9 +63,9 @@ target_link_libraries(test_datasetfiles
 )
 
 
-# Test IO files
-add_executable(test_io_files test_io_files.cpp)
-target_link_libraries(test_io_files
+# Test readFile
+add_executable(test_read_file test_read_file.cpp)
+target_link_libraries(test_read_file
     odaFS
     DataSet
     test_main

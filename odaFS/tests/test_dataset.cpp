@@ -3,8 +3,8 @@
 #include <gtest/gtest.h>
 
 #include <atomic>
-#include <thread>
 #include <chrono>
+#include <thread>
 
 
 TEST(DataSet, getRandomPath) {
