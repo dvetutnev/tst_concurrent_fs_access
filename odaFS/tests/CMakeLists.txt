@@ -52,6 +52,11 @@ target_link_libraries(test_dataset
     DataSet
     test_main
 )
+add_test(
+    NAME test_dataset
+    COMMAND test_dataset
+    WORKING_DIRECTORY bin
+)
 
 
 # Test DataSetFiles
@@ -61,6 +66,11 @@ target_link_libraries(test_datasetfiles
     DataSet
     test_main
 )
+add_test(
+    NAME test_datasetfiles
+    COMMAND test_datasetfiles
+    WORKING_DIRECTORY bin
+)
 
 
 # Test readFile
@@ -69,4 +79,23 @@ target_link_libraries(test_read_file
     odaFS
     DataSet
     test_main
+)
+add_test(
+    NAME test_read_file
+    COMMAND test_read_file
+    WORKING_DIRECTORY bin
+)
+
+
+# Test readFile
+add_executable(test_rw_file test_rw_file.cpp)
+target_link_libraries(test_rw_file
+    odaFS
+    DataSet
+    test_main
+)
+add_test(
+    NAME test_rw_file
+    COMMAND test_rw_file
+    WORKING_DIRECTORY bin
 )
