@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0)
 
 find_package(GTest REQUIRED)
 
-
+# main() as library
 add_library(test_main STATIC test_main.cpp)
 target_link_libraries(test_main
     PUBLIC GTest::GTest
@@ -40,18 +40,25 @@ add_test(
 )
 
 
+# DataSet as library
+add_library(DataSet STATIC dataset.cpp)
+target_link_libraries(DataSet PRIVATE odaFS)
+
+
 # Test DataSet
-add_executable(test_dataset dataset.cpp test_dataset.cpp)
+add_executable(test_dataset test_dataset.cpp)
 target_link_libraries(test_dataset
     odaFS
+    DataSet
     test_main
 )
 
 
 # Test DataSetFiles
-add_executable(test_datasetfiles dataset.cpp  test_datasetfiles.cpp)
+add_executable(test_datasetfiles test_datasetfiles.cpp)
 target_link_libraries(test_datasetfiles
     odaFS
+    DataSet
     test_main
 )
 
@@ -60,5 +67,6 @@ target_link_libraries(test_datasetfiles
 add_executable(test_io_files test_io_files.cpp)
 target_link_libraries(test_io_files
     odaFS
+    DataSet
     test_main
 )
