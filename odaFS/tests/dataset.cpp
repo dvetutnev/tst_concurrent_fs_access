@@ -31,16 +31,16 @@ void DataSet::init() {
 }
 
 
-void DataSet::update(const oda::fs::Path& path, const std::string& data) {
+std::unique_ptr<DataSet::UniqueLock> DataSet::update(const oda::fs::Path& path, const std::string& data) {
 
     const auto& key = path.native();
     auto& item = _storage.at(key);
 
-    item.topMtx.lock();
-    std::unique_lock<std::shared_mutex> lock{item.bottomMtx};
-    item.topMtx.unlock();
+    auto lock = std::make_unique<UniqueLock>(item);
 
     item.data = data;
+
+    return lock;
 }
 
 
@@ -49,9 +49,7 @@ bool DataSet::compare(const oda::fs::Path& path, const std::string& data) const 
     const auto& key = path.native();
     auto& item = _storage.at(key);
 
-    item.topMtx.lock();
-    std::shared_lock<std::shared_mutex> lock{item.bottomMtx};
-    item.topMtx.unlock();
+    auto lock = std::make_unique<SharedLock>(item);
 
     return data == item.data;
 }
@@ -62,9 +60,7 @@ std::string DataSet::getData(const oda::fs::Path& path) const {
     const auto& key = path.native();
     auto& item = _storage.at(key);
 
-    item.topMtx.lock();
-    std::shared_lock<std::shared_mutex> lock{item.bottomMtx};
-    item.topMtx.unlock();
+    auto lock = std::make_unique<SharedLock>(item);
 
     return std::string{item.data};
 }
@@ -109,6 +105,33 @@ DataSetFiles::~DataSetFiles() {
             boost::filesystem::remove_all(path);
         }
     }
+}
+
+
+DataSet::SharedLock::SharedLock(const Item& item)
+    : _item{item}
+{
+    _item.topMtx.lock();
+    _item.bottomMtx.lock_shared();
+    _item.topMtx.unlock();
+}
+
+DataSet::SharedLock::~SharedLock() {
+
+    _item.bottomMtx.unlock_shared();
+}
+
+DataSet::UniqueLock::UniqueLock(const Item& item)
+    : _item{item}
+{
+    _item.topMtx.lock();
+    _item.bottomMtx.lock();
+    _item.topMtx.unlock();
+}
+
+DataSet::UniqueLock::~UniqueLock() {
+
+    _item.bottomMtx.unlock();
 }
 
 
