@@ -87,7 +87,21 @@ add_test(
 )
 
 
-# Test readFile
+# Test writeFile
+add_executable(test_write_file test_write_file.cpp)
+target_link_libraries(test_write_file
+    odaFS
+    DataSet
+    test_main
+)
+add_test(
+    NAME test_write_file
+    COMMAND test_write_file
+    WORKING_DIRECTORY bin
+)
+
+
+# Test read-write file
 add_executable(test_rw_file test_rw_file.cpp)
 target_link_libraries(test_rw_file
     odaFS
