@@ -90,7 +90,9 @@ void DataSetFiles::init() {
         }
         boost::filesystem::ofstream file{path, std::ios_base::binary};
         const std::string& content = _dataSet.getData(path);
-        file.write(content.data(), content.length());
+        const char* content_data = content.data();
+        const auto content_length = content.length();
+        file.write(content_data, static_cast<std::streamsize>(content_length));
     }
 }
 
