@@ -151,7 +151,7 @@ private:
         while (_isRun) {
 
             const oda::fs::Path& path = _dataSet.getRandomPath();
-            _dataSet.update(path, _data);
+            auto lock = _dataSet.update(path, _data);
 
             _count++;
         }
