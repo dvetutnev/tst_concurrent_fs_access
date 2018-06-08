@@ -23,6 +23,20 @@ TEST(readFile, simple) {
 }
 
 
+TEST(readFile, large_file) {
+
+    DataSet dataSet{1, 500 * 1024 * 1024};
+    DataSetFiles files{dataSet};
+
+    const oda::fs::Path& path = dataSet.getRandomPath();
+    const std::string normalResult = dataSet.getData(path);
+    const std::string result = oda::fs::readFile(path);
+
+    ASSERT_EQ(result.length(), normalResult.length());
+    ASSERT_EQ(result, normalResult);
+}
+
+
 TEST(readFile, not_exists) {
 
     const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
