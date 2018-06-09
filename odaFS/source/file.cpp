@@ -43,5 +43,17 @@ std::string readFile(const Path& path) {
 }
 
 
+void writeFile(const Path& path, const std::string& data, std::ios_base::openmode mode) {
+
+    boost::filesystem::ofstream file{path, std::ios_base::binary | mode};
+    if (!file) {
+
+        const std::error_code ec = std::make_error_code(static_cast<std::errc>(errno));
+        throw Exception{ec, path.string()};
+    }
+    file << data;
+}
+
+
 } // namespace fs
 } // namespace oda

@@ -17,6 +17,8 @@ namespace fs {
 
 std::string readFile(const Path&);
 
+void writeFile(const Path&, const std::string&, std::ios_base::openmode);
+
 
 } // namespace fs
 } // namespace oda
