@@ -9,6 +9,8 @@
 
 #include "fs/common.h"
 
+#include <memory>
+
 
 namespace oda {
 namespace fs {
@@ -32,15 +34,20 @@ struct UniqueLock
 
 #ifndef ODA_FS_FAKE_LOCK
 
+
+struct LockItem;
+
+
 class SharedLock
 {
 public:
 
     SharedLock(const Path&);
+    ~SharedLock();
 
 private:
 
-    const Path::string_type& _key;
+    std::shared_ptr<LockItem> _lockItem;
 };
 
 
@@ -49,10 +56,11 @@ class UniqueLock
 public:
 
     UniqueLock(const Path&);
+    ~UniqueLock();
 
 private:
 
-    const Path::string_type& _key;
+    std::shared_ptr<LockItem> _lockItem;
 };
 
 #endif
