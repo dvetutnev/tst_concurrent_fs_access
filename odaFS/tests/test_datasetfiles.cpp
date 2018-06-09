@@ -32,7 +32,7 @@ TEST(DataSetFiles, content) {
         result.reserve(normalResult.length());
 
         boost::filesystem::ifstream file{path, std::ios_base::binary};
-        while (!file.eof()) {
+        while (file) {
 
             std::string buffer;
             buffer.resize(1024);
