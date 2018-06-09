@@ -5,6 +5,7 @@
 
 
 #include "fs/file.h"
+#include "lock.h"
 
 #include <boost/filesystem/fstream.hpp>
 #include <cassert>
@@ -19,6 +20,7 @@ namespace fs {
 
 std::string readFile(const Path& path) {
 
+    internal::SharedLock lock{path};
 
     boost::filesystem::ifstream file{path, std::ios_base::binary};
 
@@ -44,6 +46,8 @@ std::string readFile(const Path& path) {
 
 
 void writeFile(const Path& path, const std::string& data, std::ios_base::openmode mode) {
+
+    internal::UniqueLock lock{path};
 
     boost::filesystem::ofstream file{path, std::ios_base::binary | mode};
     if (!file) {
