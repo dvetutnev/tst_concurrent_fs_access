@@ -1,8 +1,9 @@
 #include "dataset.h"
 
-
 #include <gtest/gtest.h>
 #include <boost/filesystem.hpp>
+
+#include <cassert>
 
 
 TEST(DataSetFiles, create) {
@@ -37,8 +38,9 @@ TEST(DataSetFiles, content) {
             buffer.resize(1024);
 
             file.read(&buffer[0], 1024);
-            const std::size_t count = file.gcount();
-            buffer.resize(count);
+            const auto count = file.gcount();
+            assert(count >= 0);
+            buffer.resize(static_cast<std::size_t>(count));
 
             result += buffer;
         }
