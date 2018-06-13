@@ -29,5 +29,19 @@ void remove(const Path& path) {
 }
 
 
+void removeAll(const Path& path) {
+
+    try {
+
+        internal::UniqueLock lock{path};
+        boost::filesystem::remove_all(path);
+
+    } catch (const boost::filesystem::filesystem_error& ex) {
+
+        internal::reThrow(ex, path);
+    }
+}
+
+
 } // namespace fs
 } // namespace oda

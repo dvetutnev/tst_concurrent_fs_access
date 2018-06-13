@@ -15,6 +15,7 @@ namespace fs {
 
 
 void remove(const Path&);
+void removeAll(const Path&);
 
 
 } // namespace fs
