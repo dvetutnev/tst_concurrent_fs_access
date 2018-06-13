@@ -126,3 +126,16 @@ add_test(
     COMMAND test_remove
     WORKING_DIRECTORY bin
 )
+
+
+# Test remove
+add_executable(test_rename test_rename.cpp)
+target_link_libraries(test_rename
+    odaFS
+    test_main
+)
+add_test(
+    NAME test_rename
+    COMMAND test_rename
+    WORKING_DIRECTORY bin
+)
