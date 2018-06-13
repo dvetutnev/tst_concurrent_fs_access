@@ -154,7 +154,7 @@ public:
 
         _isRun = false;
         _thread.join();
-        std::cout << "ReadWorker, iterations count: " << _count << std::endl;
+        std::cout << "WriteWorker, iterations count: " << _count << std::endl;
     }
 
 private:
