@@ -1,4 +1,5 @@
 #include "dataset.h"
+#include <fs/fs.h>
 
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/operations.hpp>

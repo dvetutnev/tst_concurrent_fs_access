@@ -1,5 +1,4 @@
-#include <fs/file.h>
-#include <fs/directory.h>
+#include <fs/fs.h>
 #include "dataset.h"
 
 #include <gtest/gtest.h>

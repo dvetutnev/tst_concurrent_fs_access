@@ -6,7 +6,6 @@
 
 #include "lock.h"
 
-
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/shared_mutex.hpp>
 #include <boost/thread/lock_guard.hpp>

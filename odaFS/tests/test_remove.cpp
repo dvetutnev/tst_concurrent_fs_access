@@ -1,5 +1,4 @@
-#include <fs/remove.h>
-#include <fs/directory.h>
+#include <fs/fs.h>
 
 #include <gtest/gtest.h>
 #include <boost/filesystem.hpp>
