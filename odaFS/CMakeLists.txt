@@ -18,6 +18,7 @@ find_package(Boost REQUIRED
 add_library(${PROJECT_NAME} STATIC
     source/file.cpp
     source/lock.cpp
+    source/remove.cpp
     source/directory.cpp
     source/glob.cpp
     source/error.cpp

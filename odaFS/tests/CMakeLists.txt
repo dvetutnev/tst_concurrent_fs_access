@@ -113,3 +113,16 @@ add_test(
     COMMAND test_rw_file
     WORKING_DIRECTORY bin
 )
+
+
+# Test remove
+add_executable(test_remove test_remove.cpp)
+target_link_libraries(test_remove
+    odaFS
+    test_main
+)
+add_test(
+    NAME test_remove
+    COMMAND test_remove
+    WORKING_DIRECTORY bin
+)

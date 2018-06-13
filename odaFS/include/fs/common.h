@@ -17,11 +17,6 @@ namespace fs {
 
 using Path = boost::filesystem::path;
 
-inline std::size_t hashValue(const Path& path) {
-
-    return boost::filesystem::hash_value(path);
-}
-
 
 } // namespace fs
 } // namespace oda
