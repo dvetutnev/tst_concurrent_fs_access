@@ -21,7 +21,6 @@ public:
 
     void start() {
 
-        _failed = false;
         _count = 0;
         _isRun = true;
         _thread = std::thread{&ReadWorker::worker, this};
@@ -32,9 +31,6 @@ public:
         _isRun = false;
         _thread.join();
         std::cout << "ReadWorker, iterations count: " << _count << std::endl;
-        if (_failed) {
-            FAIL();
-        }
     }
 
 private:
@@ -46,19 +42,12 @@ private:
             const oda::fs::Path& path = _dataSet.getRandomPath();
             const std::string content = oda::fs::readFile(path);
 
-            if (!_dataSet.compare(path, content)) {
-
-                _failed = true;
-                _isRun = false;
-            }
-
             _count++;
         }
     }
 
     const DataSet& _dataSet;
 
-    bool _failed;
     std::size_t _count;
     std::atomic_bool _isRun;
     std::thread _thread;
@@ -180,7 +169,7 @@ private:
             generateData(&data[0], data.length());
 
             const oda::fs::Path& path = _dataSet.getRandomPath();
-            auto lock = _dataSet.update(path, data);
+            _dataSet.update(path, data);
 
             oda::fs::writeFile(path, data, std::ios_base::trunc);
 

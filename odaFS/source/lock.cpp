@@ -22,8 +22,8 @@ namespace internal {
 
 struct LockItem
 {
-    std::mutex top;
-    std::shared_mutex bottom;
+    mutable std::mutex top;
+    mutable std::shared_mutex bottom;
 };
 
 static std::unordered_map< Path::string_type, std::shared_ptr<LockItem> > locks;
@@ -31,20 +31,12 @@ static std::unordered_map< Path::string_type, std::shared_ptr<LockItem> > locks;
 static std::mutex mutexLockTable;
 
 
+static std::shared_ptr<LockItem> getLockItem(const Path&);
+
+
 SharedLock::SharedLock(const Path& path) {
 
-    const auto& key = path.native();
-
-    {
-        std::lock_guard<std::mutex> lockTable{mutexLockTable};
-        _lockItem = locks[key];
-        if (!_lockItem) {
-
-            _lockItem = std::make_shared<LockItem>();
-            locks[key] = _lockItem;
-        }
-    }
-
+    _lockItem = getLockItem(path);
     _lockItem->top.lock();
     _lockItem->bottom.lock_shared();
     _lockItem->top.unlock();
@@ -58,18 +50,7 @@ SharedLock::~SharedLock() {
 
 UniqueLock::UniqueLock(const Path& path) {
 
-    const auto& key = path.native();
-
-    {
-        std::lock_guard<std::mutex> lockTable{mutexLockTable};
-        _lockItem = locks[key];
-        if (!_lockItem) {
-
-            _lockItem = std::make_shared<LockItem>();
-            locks[key] = _lockItem;
-        }
-    }
-
+    _lockItem = getLockItem(path);
     _lockItem->top.lock();
     _lockItem->bottom.lock();
     _lockItem->top.unlock();
@@ -81,9 +62,25 @@ UniqueLock::~UniqueLock() {
     _lockItem->bottom.unlock();
 }
 
+
+static std::shared_ptr<LockItem> getLockItem(const Path& path) {
+
+    const auto& key = path.native();
+
+    std::lock_guard<std::mutex> lockTable{mutexLockTable};
+    std::shared_ptr<LockItem> lockItem = locks[key];
+    if (!lockItem) {
+
+        lockItem = std::make_shared<LockItem>();
+        locks[key] = lockItem;
+    }
+
+    return lockItem;
+}
+
 #endif
 
 
-}
+} // namespace internal
 } // namespace fs
 } // namespace oda

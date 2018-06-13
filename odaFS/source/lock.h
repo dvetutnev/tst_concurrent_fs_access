@@ -66,6 +66,6 @@ private:
 #endif
 
 
-}
+} // namespace internal
 } // namespace fs
 } // namespace oda
