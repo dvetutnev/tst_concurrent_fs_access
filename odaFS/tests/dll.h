@@ -7,11 +7,7 @@
         #define MY_DLL_EXPORT extern "C" __declspec(dllimport)
     #endif
 #else
-    #define MY_DLL_EXPORT
+    #define MY_DLL_EXPORT extern "C"
 #endif
 
-namespace dll {
-
-MY_DLL_EXPORT void printAddress();
-
-}
+MY_DLL_EXPORT void DLLprintAddress();

@@ -4,11 +4,7 @@
 #include <iostream>
 
 
-namespace dll {
-
-void printAddress() {
+void DLLprintAddress() {
 
     std::cout << "From dll: " << oda::fs::internal::addressOfLocks() << std::endl;
-}
-
 }
