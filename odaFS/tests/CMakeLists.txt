@@ -139,3 +139,11 @@ add_test(
     COMMAND test_rename
     WORKING_DIRECTORY bin
 )
+
+
+# Test address locks
+add_library(dll SHARED dll.cpp)
+target_link_libraries(dll PRIVATE odaFS)
+target_compile_definitions(dll PRIVATE -DCOMPILING_THE_DLL)
+add_executable(test_dll test_dll.cpp)
+target_link_libraries(test_dll odaFS dll)

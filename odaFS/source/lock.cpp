@@ -5,12 +5,14 @@
 
 
 #include "lock.h"
+#include "fs/fs.h"
 
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/shared_mutex.hpp>
 #include <boost/thread/lock_guard.hpp>
 
 #include <unordered_map>
+#include <memory>
 
 
 namespace oda {
@@ -78,6 +80,13 @@ static std::shared_ptr<LockItem> getLockItem(const Path& path) {
 
     return lockItem;
 }
+
+
+void* addressOfLocks() {
+
+    return std::addressof(locks);
+}
+
 
 #endif
 
