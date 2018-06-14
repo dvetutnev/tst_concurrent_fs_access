@@ -15,7 +15,7 @@ find_package(Boost REQUIRED
 )
 
 
-add_library(${PROJECT_NAME} STATIC
+add_library(${PROJECT_NAME} SHARED
     source/operations.cpp
     source/glob.cpp
     source/lock.cpp
