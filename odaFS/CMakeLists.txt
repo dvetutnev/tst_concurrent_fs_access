@@ -29,6 +29,7 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC Boost::thread
 )
 
+set_property(TARGET ${PROJECT_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 if(ODA_FS_FAKE_LOCK)
     target_compile_definitions(${PROJECT_NAME} PUBLIC -DODA_FS_FAKE_LOCK=1)
