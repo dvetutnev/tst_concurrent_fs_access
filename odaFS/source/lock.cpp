@@ -82,6 +82,7 @@ static std::shared_ptr<LockItem> getLockItem(const Path& path) {
 }
 
 
+#ifdef ODA_FS_TESTS
 void* addressOfLocks() {
 
     return std::addressof(locks);
@@ -97,8 +98,9 @@ void insertDummyLock() {
     const Path path = "aaa.bbb";
     locks[path.native()] = std::shared_ptr<LockItem>{};
 }
+#endif // ODA_FS_TESTS
 
-#endif
+#endif // !ODA_FS_FAKE_LOCK
 
 
 } // namespace internal

@@ -141,26 +141,43 @@ add_test(
 )
 
 
-# Test address locks
+# Tests for unique internal object
+
+# Additional shared library
 add_library(dll SHARED dll.cpp)
 target_link_libraries(dll PRIVATE odaFS)
-target_compile_definitions(dll PRIVATE -DCOMPILING_THE_DLL)
+target_compile_definitions(dll PRIVATE -DTEST_DLL_BUILD)
 set_target_properties(dll
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 
+# Test load additional library with dynamic linker
 add_executable(test_dll test_dll.cpp)
-target_link_libraries(test_dll odaFS dll)
+target_link_libraries(test_dll
+    odaFS
+    dll
+    test_main
+)
 set_target_properties(test_dll
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
+add_test(
+    NAME test_dll
+    COMMAND test_dll
+    WORKING_DIRECTORY bin
+)
 
+# Test load additional library with manual
 add_executable(test_dll_dynamic_load test_dll_dynamic_load.cpp)
-target_link_libraries(test_dll_dynamic_load odaFS ${CMAKE_DL_LIBS})
+target_link_libraries(test_dll_dynamic_load
+    odaFS
+    ${CMAKE_DL_LIBS}
+    test_main
+)
 set_target_properties(test_dll_dynamic_load
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"

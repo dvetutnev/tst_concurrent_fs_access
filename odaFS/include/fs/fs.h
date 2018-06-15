@@ -79,6 +79,7 @@ ODA_FS_EXPORT std::string readFile(const Path&);
 ODA_FS_EXPORT void writeFile(const Path&, const std::string&, std::ios_base::openmode);
 
 
+#ifdef ODA_FS_TESTS
 namespace internal {
 
 ODA_FS_EXPORT void* addressOfLocks();
@@ -86,6 +87,7 @@ ODA_FS_EXPORT std::size_t sizeOfLocks();
 ODA_FS_EXPORT void insertDummyLock();
 
 } // namespace internal
+#endif
 
 
 } // namespace fs
