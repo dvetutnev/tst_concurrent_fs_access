@@ -19,7 +19,7 @@ namespace internal {
 
 constexpr std::size_t bufferLength = 4096;
 
-void reThrow(const boost::filesystem::filesystem_error&, const Path&);
+[[ noreturn ]] void reThrow(const boost::filesystem::filesystem_error&, const Path&);
 
 } // namespace internal
 
