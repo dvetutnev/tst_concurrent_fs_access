@@ -87,6 +87,16 @@ void* addressOfLocks() {
     return std::addressof(locks);
 }
 
+std::size_t sizeOfLocks() {
+
+    return locks.size();
+}
+
+void insertDummyLock() {
+
+    const Path path = "aaa.bbb";
+    locks[path.native()] = std::shared_ptr<LockItem>{};
+}
 
 #endif
 

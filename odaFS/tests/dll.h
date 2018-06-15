@@ -10,4 +10,4 @@
     #define MY_DLL_EXPORT extern "C"
 #endif
 
-MY_DLL_EXPORT void DLLprintAddress();
+MY_DLL_EXPORT void DLLprint();

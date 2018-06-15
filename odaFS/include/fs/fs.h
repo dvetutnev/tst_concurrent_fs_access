@@ -5,6 +5,16 @@
 
 #pragma once
 
+#ifdef _WIN32
+    #ifdef ODA_FS_BUILD
+        #define ODA_FS_EXPORT __declspec(dllexport)
+    #else
+        #define ODA_FS_EXPORT __declspec(dllimport)
+    #endif
+#else
+    #define ODA_FS_EXPORT
+#endif
+
 
 #include <common/exception.h>
 
@@ -55,23 +65,25 @@ enum class CaseSensitive
 #endif
 };
 
-Directory readDirectory(const Path&, CaseSensitive caseSensitive = CaseSensitive::Default);
-Path currentDirectory();
-void createDirectory(const Path&);
+ODA_FS_EXPORT Directory readDirectory(const Path&, CaseSensitive caseSensitive = CaseSensitive::Default);
+ODA_FS_EXPORT Path currentDirectory();
+ODA_FS_EXPORT void createDirectory(const Path&);
 
 // Commnon operations
-void remove(const Path&);
-void removeAll(const Path&);
-void rename(const Path&, const Path&);
+ODA_FS_EXPORT void remove(const Path&);
+ODA_FS_EXPORT void removeAll(const Path&);
+ODA_FS_EXPORT void rename(const Path&, const Path&);
 
 // File operations
-std::string readFile(const Path&);
-void writeFile(const Path&, const std::string&, std::ios_base::openmode);
+ODA_FS_EXPORT std::string readFile(const Path&);
+ODA_FS_EXPORT void writeFile(const Path&, const std::string&, std::ios_base::openmode);
 
 
 namespace internal {
 
-void* addressOfLocks();
+ODA_FS_EXPORT void* addressOfLocks();
+ODA_FS_EXPORT std::size_t sizeOfLocks();
+ODA_FS_EXPORT void insertDummyLock();
 
 } // namespace internal
 
