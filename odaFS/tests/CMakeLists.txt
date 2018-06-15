@@ -20,6 +20,11 @@ target_link_libraries(test_read_directory
     odaFS
     test_main
 )
+set_target_properties(test_read_directory
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH True
+)
 add_test(
     NAME test_read_directory
     COMMAND test_read_directory
@@ -33,6 +38,11 @@ target_link_libraries(test_create_directory
     odaFS
     test_main
 )
+set_target_properties(test_create_directory
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH True
+)
 add_test(
     NAME test_create_directory
     COMMAND test_create_directory
@@ -43,7 +53,7 @@ add_test(
 # DataSet as library
 add_library(DataSet STATIC dataset.cpp)
 target_link_libraries(DataSet PRIVATE odaFS)
-
+set_target_properties(DataSet PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # Test DataSet
 add_executable(test_dataset test_dataset.cpp)
@@ -51,6 +61,11 @@ target_link_libraries(test_dataset
     odaFS
     DataSet
     test_main
+)
+set_target_properties(test_dataset
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
     NAME test_dataset
@@ -66,6 +81,11 @@ target_link_libraries(test_datasetfiles
     DataSet
     test_main
 )
+set_target_properties(test_datasetfiles
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH True
+)
 add_test(
     NAME test_datasetfiles
     COMMAND test_datasetfiles
@@ -79,6 +99,11 @@ target_link_libraries(test_read_file
     odaFS
     DataSet
     test_main
+)
+set_target_properties(test_read_file
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
     NAME test_read_file
@@ -94,6 +119,11 @@ target_link_libraries(test_write_file
     DataSet
     test_main
 )
+set_target_properties(test_write_file
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH True
+)
 add_test(
     NAME test_write_file
     COMMAND test_write_file
@@ -108,6 +138,11 @@ target_link_libraries(test_rw_file
     DataSet
     test_main
 )
+set_target_properties(test_rw_file
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH True
+)
 add_test(
     NAME test_rw_file
     COMMAND test_rw_file
@@ -121,6 +156,11 @@ target_link_libraries(test_remove
     odaFS
     test_main
 )
+set_target_properties(test_remove
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH True
+)
 add_test(
     NAME test_remove
     COMMAND test_remove
@@ -133,6 +173,11 @@ add_executable(test_rename test_rename.cpp)
 target_link_libraries(test_rename
     odaFS
     test_main
+)
+set_target_properties(test_rename
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
     NAME test_rename

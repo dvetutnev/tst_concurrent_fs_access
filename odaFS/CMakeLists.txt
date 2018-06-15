@@ -27,16 +27,17 @@ add_library(${PROJECT_NAME} SHARED
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
-
+target_compile_definitions(${PROJECT_NAME} PRIVATE -DODA_FS_BUILD)
+set_target_properties(${PROJECT_NAME}
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH True
+)
 target_link_libraries(${PROJECT_NAME}
     PUBLIC Boost::filesystem
     PUBLIC Boost::locale
     PUBLIC Boost::thread
 )
-
-target_compile_definitions(${PROJECT_NAME} PRIVATE -DODA_FS_BUILD)
-
-set_property(TARGET ${PROJECT_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 if(ODA_FS_FAKE_LOCK)
     target_compile_definitions(${PROJECT_NAME} PUBLIC -DODA_FS_FAKE_LOCK)
