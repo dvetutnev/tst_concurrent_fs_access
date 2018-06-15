@@ -3,9 +3,10 @@
 
 #include <fs/fs.h>
 
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/shared_mutex.hpp>
+
 #include <string>
-#include <mutex>
-#include <shared_mutex>
 #include <unordered_map>
 #include <vector>
 #include <memory>
@@ -21,8 +22,8 @@ public:
     struct Item
     {
         std::string data;
-        mutable std::mutex topMtx;
-        mutable std::shared_mutex bottomMtx;
+        mutable boost::mutex topMtx;
+        mutable boost::shared_mutex bottomMtx;
     };
 
     class SharedLock
