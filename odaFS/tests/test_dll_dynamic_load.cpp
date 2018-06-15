@@ -106,19 +106,42 @@ DLLFunctions loadFunctions() {
         std::cerr << "Cannot open library: " << dlerror() << std::endl;
         std::exit(EXIT_FAILURE);
     }
+    result.libraryHandle = handle;
     dlerror();
 
-    auto funcPtr = reinterpret_cast<FuncPtr>(dlsym(handle, funcName));
-    const char *dlsym_error = dlerror();
+    const char* dlsym_error;
+
+    auto print = reinterpret_cast<DLLFunctions::printPtr>(dlsym(handle, "DLLprint"));
+    dlsym_error = dlerror();
     if (dlsym_error) {
-        std::cerr << "Cannot load symbol '" << funcName << "': " << dlsym_error << std::endl;
-        dlclose(handle);
-        std::exit(EXIT_FAILURE);
+        std::cerr << "Cannot load symbol 'DLLprint': " << dlsym_error << std::endl;
+        throw std::runtime_error{"loadFunctions"};
     }
+    result.print = print;
 
-    funcPtr();
+    auto addressOfLocks = reinterpret_cast<DLLFunctions::addressOfLocksPtr>(dlsym(handle, "DLLaddressOfLocks"));
+    dlsym_error = dlerror();
+    if (dlsym_error) {
+        std::cerr << "Cannot load symbol 'DLLaddressOfLocks': " << dlsym_error << std::endl;
+        throw std::runtime_error{"loadFunctions"};
+    }
+    result.addressOfLocks = addressOfLocks;
 
-    dlclose(handle);
+    auto sizeOfLocks = reinterpret_cast<DLLFunctions::sizeOfLocksPtr>(dlsym(handle, "DLLsizeOfLocks"));
+    dlsym_error = dlerror();
+    if (dlsym_error) {
+        std::cerr << "Cannot load symbol 'DLLsizeOfLocks': " << dlsym_error << std::endl;
+        throw std::runtime_error{"loadFunctions"};
+    }
+    result.sizeOfLocks = sizeOfLocks;
+
+    auto insertDummyLock = reinterpret_cast<DLLFunctions::insertDummyLockPtr>(dlsym(handle, "DLLinsertDummyLock"));
+    dlsym_error = dlerror();
+    if (dlsym_error) {
+        std::cerr << "Cannot load symbol 'DLLinsertDummyLock': " << dlsym_error << std::endl;
+        throw std::runtime_error{"loadFunctions"};
+    }
+    result.insertDummyLock = insertDummyLock;
 
 #endif
 
