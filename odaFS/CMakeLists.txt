@@ -14,11 +14,16 @@ find_package(Boost REQUIRED
         thread
 )
 
+set(${PROJECT_NAME}_DLLMAIN)
+if(WIN32)
+    set(${PROJECT_NAME}_DLLMAIN source/dllmain_win.cpp)
+endif()
 
 add_library(${PROJECT_NAME} SHARED
     source/operations.cpp
     source/glob.cpp
     source/lock.cpp
+    ${${PROJECT_NAME}_DLLMAIN}
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)

@@ -18,11 +18,14 @@ struct separated : std::numpunct<char>
 
 int main(int argc, char** argv) {
 
-    std::locale defaultLocale{boost::locale::generator().generate("")};
-    std::locale::global(defaultLocale);
-    std::cout.imbue(defaultLocale);
-    std::wcout.imbue(defaultLocale);
-    boost::filesystem::path::imbue(defaultLocale);
+    {   // Setup default locale
+        const boost::locale::generator gen;
+        const std::locale loc = gen.generate(std::locale(), "");
+        std::locale::global(loc);
+        std::cout.imbue(loc);
+        std::wcout.imbue(loc);
+        boost::filesystem::path::imbue(loc);
+    }
 
     ::testing::InitGoogleTest(&argc, argv);
 
