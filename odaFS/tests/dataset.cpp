@@ -23,7 +23,7 @@ void DataSet::init() {
         data.resize(_length);
         generateData(&data[0], _length);
 
-        const oda::fs::Path filepath = "data_" + std::to_string(i) + ".dat";
+        const oda::fs::Path filepath = _prefix / ("data_" + std::to_string(i) + ".dat");
         const auto& key = filepath.native();
         _storage[key].data.swap(data);
 

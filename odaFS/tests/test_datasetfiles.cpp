@@ -8,7 +8,9 @@
 
 TEST(DataSetFiles, create) {
 
-    DataSet dataSet{3};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 3};
     DataSetFiles dataSetFiles{dataSet};
 
     const auto& paths = dataSet.getAllPaths();
@@ -21,7 +23,9 @@ TEST(DataSetFiles, create) {
 
 TEST(DataSetFiles, content) {
 
-    DataSet dataSet{3};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 3};
     DataSetFiles dataSetFiles{dataSet};
 
     const auto& paths = dataSet.getAllPaths();
@@ -53,7 +57,9 @@ TEST(DataSetFiles, content) {
 
 TEST(DataSetFiles, remove) {
 
-        DataSet dataSet{3};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 3};
     {
         DataSetFiles dataSetFiles{dataSet};
     }

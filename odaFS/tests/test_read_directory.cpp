@@ -105,8 +105,9 @@ std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>
 
 TEST(readDirectory, simple) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -132,7 +133,9 @@ TEST(readDirectory, simple) {
 
 TEST(readDirectory, relative_path) {
 
-    const oda::fs::Path path = "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -158,8 +161,9 @@ TEST(readDirectory, relative_path) {
 
 TEST(readDirectory, wildcard_asterisk) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -185,8 +189,9 @@ TEST(readDirectory, wildcard_asterisk) {
 
 TEST(readDirectory, wildcard_asterisk_tail) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -206,8 +211,9 @@ TEST(readDirectory, wildcard_asterisk_tail) {
 
 TEST(readDirectory, wildcard_asterisk_head) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -227,8 +233,9 @@ TEST(readDirectory, wildcard_asterisk_head) {
 
 TEST(readDirectory, wildcard_asterisk_middle) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -246,8 +253,9 @@ TEST(readDirectory, wildcard_asterisk_middle) {
 
 TEST(readDirectory, wildcard_question_mark) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -265,8 +273,9 @@ TEST(readDirectory, wildcard_question_mark) {
 
 TEST(readDirectory, wildcard_question_mark_and_asterisk) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
 
     oda::fs::Directory normalResult{
@@ -285,8 +294,9 @@ TEST(readDirectory, wildcard_question_mark_and_asterisk) {
 
 TEST(readDirectory, wildcard_case_sensitive_true) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
     {
         boost::filesystem::ofstream f1{path / "case_sensitive_1.tmp"};
@@ -309,8 +319,9 @@ TEST(readDirectory, wildcard_case_sensitive_true) {
 
 TEST(readDirectory, wildcard_case_sensitive_true_cyrillic) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
     {
         boost::filesystem::ofstream f1{path / "файл_1.tmp"};
@@ -333,8 +344,9 @@ TEST(readDirectory, wildcard_case_sensitive_true_cyrillic) {
 
 TEST(readDirectory, wildcard_case_sensitive_false) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
     {
         boost::filesystem::ofstream f1{path / "case_sensitive_1.tmp"};
@@ -358,8 +370,9 @@ TEST(readDirectory, wildcard_case_sensitive_false) {
 
 TEST(readDirectory, wildcard_case_sensitive_false_cyrillic) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "dataset_read_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "dataset_read_directory";
     TestDirectory testDirectory{path};
     {
         boost::filesystem::ofstream f1{path / "файл_1.tmp"};
@@ -429,8 +442,9 @@ TEST(readDirectory, error_access_denied) {
 
 TEST(readDirectory, error_not_directory) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "not_direcory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "not_direcory";
 
     if (boost::filesystem::exists(path)) {
 

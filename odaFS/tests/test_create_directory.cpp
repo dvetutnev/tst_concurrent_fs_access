@@ -6,8 +6,9 @@
 
 TEST(createDirectory, normal) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_create_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "test_create_directory";
 
     if (boost::filesystem::exists(path)) {
 
@@ -29,8 +30,9 @@ TEST(createDirectory, normal) {
 
 TEST(createDirectory, already_exists_directory) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_create_directory_already_exists_direcory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "test_create_directory_already_exists_direcory";
 
     if (boost::filesystem::exists(path)) {
 
@@ -52,8 +54,9 @@ TEST(createDirectory, already_exists_directory) {
 
 TEST(createDirectory, error_already_exists_file) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_create_directory_already_exists_file";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "test_create_directory_already_exists_file";
 
     if (boost::filesystem::exists(path)) {
 

@@ -37,8 +37,9 @@ std::string _readFile(const oda::fs::Path& path) {
 
 TEST(writeFile, truncate_create) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "write_file";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "write_file";
 
     if(boost::filesystem::exists(path)) {
 
@@ -60,8 +61,9 @@ TEST(writeFile, truncate_create) {
 
 TEST(writeFile, truncate_override) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "write_file";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "write_file";
 
     if(boost::filesystem::exists(path)) {
 
@@ -90,8 +92,9 @@ TEST(writeFile, truncate_override) {
 
 TEST(writeFile, append) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "write_file";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "write_file";
 
     if(boost::filesystem::exists(path)) {
 
@@ -120,8 +123,9 @@ TEST(writeFile, append) {
 
 TEST(writeFile, large) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "write_file";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "write_file";
 
     if(boost::filesystem::exists(path)) {
 
@@ -143,8 +147,9 @@ TEST(writeFile, large) {
 
 TEST(writeFile, is_directory) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "write_file_is_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "write_file_is_directory";
 
     if (boost::filesystem::exists(path)) {
 

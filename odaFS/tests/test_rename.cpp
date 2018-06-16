@@ -6,15 +6,16 @@
 
 TEST(rename, not_exists) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path oldPath = currentDirectory / "test_rename_not_exists";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path oldPath = prefixPath / "test_rename_not_exists";
 
     if (boost::filesystem::exists(oldPath)) {
 
         boost::filesystem::remove_all(oldPath);
     }
 
-    const oda::fs::Path newPath = currentDirectory / "test_rename_new_path";
+    const oda::fs::Path newPath = prefixPath / "test_rename_new_path";
 
     if (boost::filesystem::exists(newPath)) {
 

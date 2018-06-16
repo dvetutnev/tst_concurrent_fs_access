@@ -1,5 +1,7 @@
 find_package(GTest REQUIRED)
 
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/test_${PROJECT_NAME}_dir)
+
 # main() as library
 add_library(test_main STATIC test_main.cpp)
 target_link_libraries(test_main

@@ -2,6 +2,7 @@
 #include "dataset.h"
 
 #include <gtest/gtest.h>
+#include <boost/filesystem.hpp>
 
 #include <atomic>
 #include <chrono>
@@ -59,7 +60,9 @@ private:
 
 TEST(rwFile, readOnly_1) {
 
-    DataSet dataSet{1};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 1};
     DataSetFiles files{dataSet};
 
     ReadWorker readWorker_1{dataSet};
@@ -83,7 +86,9 @@ TEST(rwFile, readOnly_1) {
 
 TEST(rwFile, readOnly_3) {
 
-    DataSet dataSet{3};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 3};
     DataSetFiles files{dataSet};
 
     ReadWorker readWorker_1{dataSet};
@@ -107,7 +112,9 @@ TEST(rwFile, readOnly_3) {
 
 TEST(rwFile, readOnly_10k) {
 
-    DataSet dataSet{10000};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 10000};
     DataSetFiles files{dataSet};
 
     ReadWorker readWorker_1{dataSet};
@@ -191,7 +198,9 @@ private:
 
 TEST(rwFile, rw_1) {
 
-    DataSet dataSet{1};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 1};
     DataSetFiles files{dataSet};
 
     ReadWorker readWorker_1{dataSet};
@@ -221,7 +230,9 @@ TEST(rwFile, rw_1) {
 
 TEST(rwFile, rw_3) {
 
-    DataSet dataSet{3};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 3};
     DataSetFiles files{dataSet};
 
     ReadWorker readWorker_1{dataSet};
@@ -251,7 +262,9 @@ TEST(rwFile, rw_3) {
 
 TEST(rwFile, rw_10k) {
 
-    DataSet dataSet{10000};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 10000};
     DataSetFiles files{dataSet};
 
     ReadWorker readWorker_1{dataSet};

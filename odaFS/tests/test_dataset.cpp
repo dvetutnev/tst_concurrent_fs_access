@@ -9,67 +9,67 @@
 
 TEST(DataSet, getRandomPath) {
 
-    DataSet dataSet{3};
+    DataSet dataSet{".", 3};
 
     const auto& path = dataSet.getRandomPath();
 
     std::cout << "dataSet.getRandomKey(): " << path << std::endl;
-    ASSERT_TRUE(path == "data_1.dat" || path == "data_2.dat" || path == "data_3.dat");
+    ASSERT_TRUE(path == "./data_1.dat" || path == "./data_2.dat" || path == "./data_3.dat");
 }
 
 
 TEST(DataSet, getAllPaths) {
 
-    DataSet dataSet{3};
+    DataSet dataSet{".", 3};
 
     const auto& paths = dataSet.getAllPaths();
 
     ASSERT_EQ(paths.size(), 3);
-    ASSERT_EQ(paths[0], "data_1.dat");
-    ASSERT_EQ(paths[1], "data_2.dat");
-    ASSERT_EQ(paths[2], "data_3.dat");
+    ASSERT_EQ(paths[0], "./data_1.dat");
+    ASSERT_EQ(paths[1], "./data_2.dat");
+    ASSERT_EQ(paths[2], "./data_3.dat");
 }
 
 
 TEST(DataSet, getData) {
 
-    DataSet dataSet{3};
+    DataSet dataSet{".", 3};
 
-    ASSERT_NO_THROW(dataSet.getData("data_1.dat"));
-    ASSERT_NO_THROW(dataSet.getData("data_2.dat"));
-    ASSERT_NO_THROW(dataSet.getData("data_3.dat"));
-    ASSERT_ANY_THROW(dataSet.getData("data_4.dat"));
+    ASSERT_NO_THROW(dataSet.getData("./data_1.dat"));
+    ASSERT_NO_THROW(dataSet.getData("./data_2.dat"));
+    ASSERT_NO_THROW(dataSet.getData("./data_3.dat"));
+    ASSERT_ANY_THROW(dataSet.getData("./data_4.dat"));
 }
 
 
 TEST(DataSet, update) {
 
-    DataSet dataSet{3};
+    DataSet dataSet{".", 3};
 
     const std::string newData = "AAAAAAaaaaaaBBBBBBBbbbbbCCCCCccc";
-    ASSERT_NO_THROW(dataSet.update("data_1.dat", newData));
-    ASSERT_NO_THROW(dataSet.update("data_2.dat", newData));
-    ASSERT_NO_THROW(dataSet.update("data_3.dat", newData));
-    ASSERT_ANY_THROW(dataSet.update("data_4.dat", newData));
+    ASSERT_NO_THROW(dataSet.update("./data_1.dat", newData));
+    ASSERT_NO_THROW(dataSet.update("./data_2.dat", newData));
+    ASSERT_NO_THROW(dataSet.update("./data_3.dat", newData));
+    ASSERT_ANY_THROW(dataSet.update("./data_4.dat", newData));
 
-    const std::string result = dataSet.getData("data_2.dat");
+    const std::string result = dataSet.getData("./data_2.dat");
     ASSERT_EQ(result, newData);
 }
 
 
 TEST(DataSet, compare) {
 
-    DataSet dataSet{3};
+    DataSet dataSet{".", 3};
 
-    ASSERT_NO_THROW(dataSet.compare("data_1.dat", ""));
-    ASSERT_NO_THROW(dataSet.compare("data_2.dat", ""));
-    ASSERT_NO_THROW(dataSet.compare("data_3.dat", ""));
-    ASSERT_ANY_THROW(dataSet.compare("data_4.dat", ""));
+    ASSERT_NO_THROW(dataSet.compare("./data_1.dat", ""));
+    ASSERT_NO_THROW(dataSet.compare("./data_2.dat", ""));
+    ASSERT_NO_THROW(dataSet.compare("./data_3.dat", ""));
+    ASSERT_ANY_THROW(dataSet.compare("./data_4.dat", ""));
 
     const std::string badData = "badData";
-    const std::string normalData = dataSet.getData("data_2.dat");
-    ASSERT_FALSE(dataSet.compare("data_2.dat", badData));
-    ASSERT_TRUE(dataSet.compare("data_2.dat", normalData));
+    const std::string normalData = dataSet.getData("./data_2.dat");
+    ASSERT_FALSE(dataSet.compare("./data_2.dat", badData));
+    ASSERT_TRUE(dataSet.compare("./data_2.dat", normalData));
 }
 
 
@@ -170,7 +170,7 @@ private:
 
 TEST(DataSet, concurrentAccess_1) {
 
-    DataSet dataSet{1};
+    DataSet dataSet{".", 1};
 
 
     ReadWorker readWorker_1{dataSet};
@@ -206,7 +206,7 @@ TEST(DataSet, concurrentAccess_1) {
 
 TEST(DataSet, concurrentAccess_2) {
 
-    DataSet dataSet{2};
+    DataSet dataSet{".", 2};
 
 
     ReadWorker readWorker_1{dataSet};
@@ -242,7 +242,7 @@ TEST(DataSet, concurrentAccess_2) {
 
 TEST(DataSet, concurrentAccess_3) {
 
-    DataSet dataSet{3};
+    DataSet dataSet{".", 3};
 
 
     ReadWorker readWorker_1{dataSet};
@@ -278,7 +278,7 @@ TEST(DataSet, concurrentAccess_3) {
 
 TEST(DataSet, concurrentAccess_10k) {
 
-    DataSet dataSet{10000};
+    DataSet dataSet{".", 10000};
 
 
     ReadWorker readWorker_1{dataSet};

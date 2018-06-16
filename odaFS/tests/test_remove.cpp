@@ -6,8 +6,9 @@
 
 TEST(remove, file_simple) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_remove_file";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "test_remove_file";
 
     if (boost::filesystem::exists(path)) {
 
@@ -25,8 +26,9 @@ TEST(remove, file_simple) {
 
 TEST(remove, directory_simple) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_remove_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "test_remove_directory";
 
     if (boost::filesystem::exists(path)) {
 
@@ -42,8 +44,9 @@ TEST(remove, directory_simple) {
 
 TEST(remove, not_empty) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_remove_not_empty";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "test_remove_not_empty";
 
     if (boost::filesystem::exists(path)) {
 
@@ -104,8 +107,9 @@ TEST(remove, access_denied) {
 
 TEST(removeAll, not_empty) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "test_remove_not_empty";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "test_remove_not_empty";
 
     if (boost::filesystem::exists(path)) {
 

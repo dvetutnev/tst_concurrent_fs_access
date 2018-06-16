@@ -11,7 +11,9 @@
 
 TEST(readFile, simple) {
 
-    DataSet dataSet{3};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 3};
     DataSetFiles files{dataSet};
 
     const oda::fs::Path& path = dataSet.getRandomPath();
@@ -25,7 +27,9 @@ TEST(readFile, simple) {
 
 TEST(readFile, large_file) {
 
-    DataSet dataSet{1, 500 * 1024 * 1024};
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    DataSet dataSet{prefixPath, 1, 500 * 1024 * 1024};
     DataSetFiles files{dataSet};
 
     const oda::fs::Path& path = dataSet.getRandomPath();
@@ -39,8 +43,9 @@ TEST(readFile, large_file) {
 
 TEST(readFile, not_exists) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "read_file_not_exists";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "read_file_not_exists";
 
     if (boost::filesystem::exists(path)) {
 
@@ -69,8 +74,9 @@ TEST(readFile, not_exists) {
 
 TEST(readFile, is_directory) {
 
-    const oda::fs::Path currentDirectory = oda::fs::currentDirectory();
-    const oda::fs::Path path = currentDirectory / "read_file_is_directory";
+    const oda::fs::Path prefixPath = oda::fs::currentDirectory() / "test_odaFS_dir";
+    boost::filesystem::create_directories(prefixPath);
+    const oda::fs::Path path = prefixPath / "read_file_is_directory";
 
     if (boost::filesystem::exists(path)) {
 

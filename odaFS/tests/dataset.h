@@ -51,8 +51,9 @@ public:
         const Item& _item;
     };
 
-    DataSet(std::size_t count, std::size_t length = 8 * 1024)
-        : _count{count},
+    DataSet(const oda::fs::Path& prefix, std::size_t count, std::size_t length = 8 * 1024)
+        : _prefix{prefix},
+          _count{count},
           _length{length}
     {
         init();
@@ -68,6 +69,7 @@ private:
 
     void init();
 
+    const oda::fs::Path& _prefix;
     const std::size_t _count;
     const std::size_t _length;
 
