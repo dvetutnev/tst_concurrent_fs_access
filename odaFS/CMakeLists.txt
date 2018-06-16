@@ -1,11 +1,3 @@
-project(odaFS CXX)
-cmake_minimum_required(VERSION 3.0)
-
-
-option(ODA_FS_TESTS "Enable odaFS tests" ON)
-option(ODA_FS_FAKE_LOCK "Without thread-safe" OFF)
-
-
 #find_package(easy_profiler REQUIRED)
 find_package(Boost REQUIRED
     COMPONENTS
