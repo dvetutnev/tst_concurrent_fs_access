@@ -44,4 +44,9 @@ if(ODA_FS_STANDALONE)
 
 endif() # ODA_FS_STANDALONE
 
-add_subdirectory(odaFS)
+add_subdirectory(library)
+
+if(ODA_FS_TESTS)
+    add_subdirectory(tests)
+endif()
+

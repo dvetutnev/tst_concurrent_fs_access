@@ -37,5 +37,5 @@ endif()
 
 if(ODA_FS_TESTS)
     target_compile_definitions(${PROJECT_NAME} PUBLIC -DODA_FS_TESTS)
-    add_subdirectory(tests)
 endif()
+
