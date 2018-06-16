@@ -12,7 +12,7 @@
 #include <iostream>
 
 
-TEST(testDLL, fake) {
+TEST(testDLL_linker_load, fake) {
 
     SUCCEED();
 }
@@ -20,7 +20,7 @@ TEST(testDLL, fake) {
 
 #ifdef ODA_FS_TESTS
 
-TEST(testDLL, address_and_size__insert_from_EXE) {
+TEST(testDLL_linker_load, address_and_size__insert_from_EXE) {
 
     void* const addressFromEXE = oda::fs::internal::addressOfLocks();
     void* const addressFromDLL = DLLaddressOfLocks();
@@ -46,7 +46,7 @@ TEST(testDLL, address_and_size__insert_from_EXE) {
 }
 
 
-TEST(testDLL, address_and_size__insert_from_DLL) {
+TEST(testDLL_linker_load, address_and_size__insert_from_DLL) {
 
     void* const addressFromEXE = oda::fs::internal::addressOfLocks();
     void* const addressFromDLL = DLLaddressOfLocks();
@@ -72,7 +72,7 @@ TEST(testDLL, address_and_size__insert_from_DLL) {
 }
 
 
-TEST(testDLL, print) {
+TEST(testDLL_linker_load, print) {
 
     std::cout << "From EXE address: " << oda::fs::internal::addressOfLocks() << " size: " << oda::fs::internal::sizeOfLocks() << std::endl;
     DLLprint();

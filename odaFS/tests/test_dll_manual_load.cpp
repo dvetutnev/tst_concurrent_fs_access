@@ -19,7 +19,7 @@
 #endif
 
 
-TEST(testDLL_dynamic_load, fake) {
+TEST(testDLL_manual_load, fake) {
 
     SUCCEED();
 }
@@ -54,7 +54,7 @@ DLLFunctions loadFunctions() {
 
 #ifdef _WIN32
 
-    HMODULE handle = ::LoadLibraryW(L"./dll.dll");
+    HMODULE handle = ::LoadLibraryW(L"./test_odaFS_dll.dll");
     if (handle == nullptr) {
 
         const auto errorCode = ::GetLastError();
@@ -101,10 +101,10 @@ DLLFunctions loadFunctions() {
 
 #else
 
-    void* handle = dlopen("./libdll.so", RTLD_LAZY);
+    void* handle = dlopen("./libtest_odaFS_dll.so", RTLD_LAZY);
     if (!handle) {
         std::cerr << "Cannot open library: " << dlerror() << std::endl;
-        std::exit(EXIT_FAILURE);
+        throw std::runtime_error{"loadFunctions"};
     }
     result.libraryHandle = handle;
     dlerror();
@@ -157,9 +157,10 @@ void unLoadFunctions(const DLLFunctions& DLL) {
 }
 
 
-TEST(testDLL_dynamic_load, address_and_size__insert_from_EXE) {
+TEST(testDLL_manual_load, address_and_size__insert_from_EXE) {
 
-    DLLFunctions DLL = loadFunctions();
+    DLLFunctions DLL;
+    ASSERT_NO_THROW(DLL = loadFunctions());
 
     void* const addressFromEXE = oda::fs::internal::addressOfLocks();
     void* const addressFromDLL = DLL.addressOfLocks();
@@ -188,9 +189,10 @@ TEST(testDLL_dynamic_load, address_and_size__insert_from_EXE) {
 }
 
 
-TEST(testDLL_dynamic_load, address_and_size__insert_from_DLL) {
+TEST(testDLL_manual_load, address_and_size__insert_from_DLL) {
 
-    DLLFunctions DLL = loadFunctions();
+    DLLFunctions DLL;
+    ASSERT_NO_THROW(DLL = loadFunctions());
 
     void* const addressFromEXE = oda::fs::internal::addressOfLocks();
     void* const addressFromDLL = DLL.addressOfLocks();
@@ -219,9 +221,10 @@ TEST(testDLL_dynamic_load, address_and_size__insert_from_DLL) {
 }
 
 
-TEST(testDLL_dynamic_load, print) {
+TEST(testDLL_manual_load, print) {
 
-    DLLFunctions DLL = loadFunctions();
+    DLLFunctions DLL;
+    ASSERT_NO_THROW(DLL = loadFunctions());
 
     std::cout << "From EXE address: " << oda::fs::internal::addressOfLocks() << " size: " << oda::fs::internal::sizeOfLocks() << std::endl;
     DLL.print();
