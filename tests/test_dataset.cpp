@@ -14,7 +14,11 @@ TEST(DataSet, getRandomPath) {
     const auto& path = dataSet.getRandomPath();
 
     std::cout << "dataSet.getRandomKey(): " << path << std::endl;
-    ASSERT_TRUE(path == "./data_1.dat" || path == "./data_2.dat" || path == "./data_3.dat");
+    ASSERT_TRUE(
+                path == oda::fs::Path{"./data_1.dat"}
+                || path == oda::fs::Path{"./data_2.dat"}
+                || path == oda::fs::Path{"./data_3.dat"}
+                );
 }
 
 
@@ -34,11 +38,17 @@ TEST(DataSet, getAllPaths) {
 TEST(DataSet, getData) {
 
     DataSet dataSet{".", 3};
-
+#ifdef _WIN32
+    ASSERT_NO_THROW(dataSet.getData(".\\data_1.dat"));
+    ASSERT_NO_THROW(dataSet.getData(".\\data_2.dat"));
+    ASSERT_NO_THROW(dataSet.getData(".\\data_3.dat"));
+    ASSERT_ANY_THROW(dataSet.getData(".\\data_4.dat"));
+#else
     ASSERT_NO_THROW(dataSet.getData("./data_1.dat"));
     ASSERT_NO_THROW(dataSet.getData("./data_2.dat"));
     ASSERT_NO_THROW(dataSet.getData("./data_3.dat"));
     ASSERT_ANY_THROW(dataSet.getData("./data_4.dat"));
+#endif
 }
 
 
@@ -47,12 +57,23 @@ TEST(DataSet, update) {
     DataSet dataSet{".", 3};
 
     const std::string newData = "AAAAAAaaaaaaBBBBBBBbbbbbCCCCCccc";
+#ifdef _WIN32
+    ASSERT_NO_THROW(dataSet.update(".\\data_1.dat", newData));
+    ASSERT_NO_THROW(dataSet.update(".\\data_2.dat", newData));
+    ASSERT_NO_THROW(dataSet.update(".\\data_3.dat", newData));
+    ASSERT_ANY_THROW(dataSet.update(".\\data_4.dat", newData));
+#else
     ASSERT_NO_THROW(dataSet.update("./data_1.dat", newData));
     ASSERT_NO_THROW(dataSet.update("./data_2.dat", newData));
     ASSERT_NO_THROW(dataSet.update("./data_3.dat", newData));
     ASSERT_ANY_THROW(dataSet.update("./data_4.dat", newData));
+#endif
 
+#ifdef _WIN32
+    const std::string result = dataSet.getData(".\\data_2.dat");
+#else
     const std::string result = dataSet.getData("./data_2.dat");
+#endif
     ASSERT_EQ(result, newData);
 }
 
@@ -61,15 +82,28 @@ TEST(DataSet, compare) {
 
     DataSet dataSet{".", 3};
 
+#ifdef _WIN32
+    ASSERT_NO_THROW(dataSet.compare(".\\data_1.dat", ""));
+    ASSERT_NO_THROW(dataSet.compare(".\\data_2.dat", ""));
+    ASSERT_NO_THROW(dataSet.compare(".\\data_3.dat", ""));
+    ASSERT_ANY_THROW(dataSet.compare(".\\data_4.dat", ""));
+#else
     ASSERT_NO_THROW(dataSet.compare("./data_1.dat", ""));
     ASSERT_NO_THROW(dataSet.compare("./data_2.dat", ""));
     ASSERT_NO_THROW(dataSet.compare("./data_3.dat", ""));
     ASSERT_ANY_THROW(dataSet.compare("./data_4.dat", ""));
+#endif
 
     const std::string badData = "badData";
+#ifdef _WIN32
+    const std::string normalData = dataSet.getData(".\\data_2.dat");
+    ASSERT_FALSE(dataSet.compare(".\\data_2.dat", badData));
+    ASSERT_TRUE(dataSet.compare(".\\data_2.dat", normalData));
+#else
     const std::string normalData = dataSet.getData("./data_2.dat");
     ASSERT_FALSE(dataSet.compare("./data_2.dat", badData));
     ASSERT_TRUE(dataSet.compare("./data_2.dat", normalData));
+#endif
 }
 
 
