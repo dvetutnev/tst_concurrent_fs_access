@@ -16,7 +16,7 @@
 #endif
 
 
-#include <common/exception.h>
+#include <common/error/exception.h>
 
 #include <boost/filesystem/path.hpp>
 

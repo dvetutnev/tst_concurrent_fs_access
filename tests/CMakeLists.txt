@@ -17,37 +17,37 @@ target_link_libraries(test_main
 
 
 # Test readDirectory
-add_executable(test_${PROJECT_NAME}_read_directory test_read_directory.cpp)
-target_link_libraries(test_${PROJECT_NAME}_read_directory
+add_executable(test_odaFS_read_directory test_read_directory.cpp)
+target_link_libraries(test_odaFS_read_directory
     odaFS
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_read_directory
+set_target_properties(test_odaFS_read_directory
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_read_directory
-    COMMAND test_${PROJECT_NAME}_read_directory
+    NAME test_odaFS_read_directory
+    COMMAND test_odaFS_read_directory
     WORKING_DIRECTORY bin
 )
 
 
 # Test createDirectory
-add_executable(test_${PROJECT_NAME}_create_directory test_create_directory.cpp)
-target_link_libraries(test_${PROJECT_NAME}_create_directory
+add_executable(test_odaFS_create_directory test_create_directory.cpp)
+target_link_libraries(test_odaFS_create_directory
     odaFS
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_create_directory
+set_target_properties(test_odaFS_create_directory
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_create_directory
-    COMMAND test_${PROJECT_NAME}_create_directory
+    NAME test_odaFS_create_directory
+    COMMAND test_odaFS_create_directory
     WORKING_DIRECTORY bin
 )
 
@@ -58,132 +58,132 @@ target_link_libraries(DataSet PRIVATE odaFS)
 set_target_properties(DataSet PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # Test DataSet
-add_executable(test_${PROJECT_NAME}_dataset test_dataset.cpp)
-target_link_libraries(test_${PROJECT_NAME}_dataset
+add_executable(test_odaFS_dataset test_dataset.cpp)
+target_link_libraries(test_odaFS_dataset
     odaFS
     DataSet
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_dataset
+set_target_properties(test_odaFS_dataset
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_dataset
-    COMMAND test_${PROJECT_NAME}_dataset
+    NAME test_odaFS_dataset
+    COMMAND test_odaFS_dataset
     WORKING_DIRECTORY bin
 )
 
 
 # Test DataSetFiles
-add_executable(test_${PROJECT_NAME}_datasetfiles test_datasetfiles.cpp)
-target_link_libraries(test_${PROJECT_NAME}_datasetfiles
+add_executable(test_odaFS_datasetfiles test_datasetfiles.cpp)
+target_link_libraries(test_odaFS_datasetfiles
     odaFS
     DataSet
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_datasetfiles
+set_target_properties(test_odaFS_datasetfiles
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_datasetfiles
-    COMMAND test_${PROJECT_NAME}_datasetfiles
+    NAME test_odaFS_datasetfiles
+    COMMAND test_odaFS_datasetfiles
     WORKING_DIRECTORY bin
 )
 
 
 # Test readFile
-add_executable(test_${PROJECT_NAME}_read_file test_read_file.cpp)
-target_link_libraries(test_${PROJECT_NAME}_read_file
+add_executable(test_odaFS_read_file test_read_file.cpp)
+target_link_libraries(test_odaFS_read_file
     odaFS
     DataSet
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_read_file
+set_target_properties(test_odaFS_read_file
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_read_file
-    COMMAND test_${PROJECT_NAME}_read_file
+    NAME test_odaFS_read_file
+    COMMAND test_odaFS_read_file
     WORKING_DIRECTORY bin
 )
 
 
 # Test writeFile
-add_executable(test_${PROJECT_NAME}_write_file test_write_file.cpp)
-target_link_libraries(test_${PROJECT_NAME}_write_file
+add_executable(test_odaFS_write_file test_write_file.cpp)
+target_link_libraries(test_odaFS_write_file
     odaFS
     DataSet
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_write_file
+set_target_properties(test_odaFS_write_file
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_write_file
-    COMMAND test_${PROJECT_NAME}_write_file
+    NAME test_odaFS_write_file
+    COMMAND test_odaFS_write_file
     WORKING_DIRECTORY bin
 )
 
 
 # Test read-write file
-add_executable(test_${PROJECT_NAME}_rw_file test_rw_file.cpp)
-target_link_libraries(test_${PROJECT_NAME}_rw_file
+add_executable(test_odaFS_rw_file test_rw_file.cpp)
+target_link_libraries(test_odaFS_rw_file
     odaFS
     DataSet
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_rw_file
+set_target_properties(test_odaFS_rw_file
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_rw_file
-    COMMAND test_${PROJECT_NAME}_rw_file
+    NAME test_odaFS_rw_file
+    COMMAND test_odaFS_rw_file
     WORKING_DIRECTORY bin
 )
 
 
 # Test remove
-add_executable(test_${PROJECT_NAME}_remove test_remove.cpp)
-target_link_libraries(test_${PROJECT_NAME}_remove
+add_executable(test_odaFS_remove test_remove.cpp)
+target_link_libraries(test_odaFS_remove
     odaFS
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_remove
+set_target_properties(test_odaFS_remove
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_remove
-    COMMAND test_${PROJECT_NAME}_remove
+    NAME test_odaFS_remove
+    COMMAND test_odaFS_remove
     WORKING_DIRECTORY bin
 )
 
 
 # Test remove
-add_executable(test_${PROJECT_NAME}_rename test_rename.cpp)
-target_link_libraries(test_${PROJECT_NAME}_rename
+add_executable(test_odaFS_rename test_rename.cpp)
+target_link_libraries(test_odaFS_rename
     odaFS
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_rename
+set_target_properties(test_odaFS_rename
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_rename
-    COMMAND test_${PROJECT_NAME}_rename
+    NAME test_odaFS_rename
+    COMMAND test_odaFS_rename
     WORKING_DIRECTORY bin
 )
 
@@ -191,47 +191,47 @@ add_test(
 # Tests for unique internal object
 
 # Additional shared library
-add_library(test_${PROJECT_NAME}_dll SHARED dll.cpp)
-target_link_libraries(test_${PROJECT_NAME}_dll PRIVATE odaFS)
-target_compile_definitions(test_${PROJECT_NAME}_dll PRIVATE -DTEST_DLL_BUILD)
-set_target_properties(test_${PROJECT_NAME}_dll
+add_library(test_odaFS_dll SHARED dll.cpp)
+target_link_libraries(test_odaFS_dll PRIVATE odaFS)
+target_compile_definitions(test_odaFS_dll PRIVATE -DTEST_DLL_BUILD)
+set_target_properties(test_odaFS_dll
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 
 # Test load additional library with linker
-add_executable(test_${PROJECT_NAME}_dll_linker_load test_dll_linker_load.cpp)
-target_link_libraries(test_${PROJECT_NAME}_dll_linker_load
+add_executable(test_odaFS_dll_linker_load test_dll_linker_load.cpp)
+target_link_libraries(test_odaFS_dll_linker_load
     odaFS
-    test_${PROJECT_NAME}_dll
+    test_odaFS_dll
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_dll_linker_load
+set_target_properties(test_odaFS_dll_linker_load
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_dll_linker_load
-    COMMAND test_${PROJECT_NAME}_dll_linker_load
+    NAME test_odaFS_dll_linker_load
+    COMMAND test_odaFS_dll_linker_load
     WORKING_DIRECTORY bin
 )
 
 # Test load additional library with manual
-add_executable(test_${PROJECT_NAME}_dll_manual_load test_dll_manual_load.cpp)
-target_link_libraries(test_${PROJECT_NAME}_dll_manual_load
-    ${PROJECT_NAME}
+add_executable(test_odaFS_dll_manual_load test_dll_manual_load.cpp)
+target_link_libraries(test_odaFS_dll_manual_load
+    odaFS
     ${CMAKE_DL_LIBS}
     test_main
 )
-set_target_properties(test_${PROJECT_NAME}_dll_manual_load
+set_target_properties(test_odaFS_dll_manual_load
     PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH True
 )
 add_test(
-    NAME test_${PROJECT_NAME}_dll_manual_load
-    COMMAND test_${PROJECT_NAME}_dll_manual_load
+    NAME test_odaFS_dll_manual_load
+    COMMAND test_odaFS_dll_manual_load
     WORKING_DIRECTORY bin
 )
