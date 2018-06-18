@@ -15,7 +15,7 @@ BOOL WINAPI DllMain(HINSTANCE, DWORD dwReason, LPVOID)
 
         {   // Setup default locale
             const boost::locale::generator gen;
-            const std::locale loc = gen.generate(std::locale(), "");
+            const std::locale loc = gen.generate(std::locale(), "ru_RU.cp1251");
             std::locale::global(loc);
             std::cout.imbue(loc);
             std::wcout.imbue(loc);
